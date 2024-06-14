@@ -1,0 +1,68 @@
+.aside-fade-enter-active {
+  transition: all 0.3s ease;
+}
+
+.aside-fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.aside-fade-enter,
+.aside-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.penis-current-play {
+  font-size: 14px;
+  width: 350px;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  padding-bottom: 100px;
+  z-index: 99;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.title,
+.control,
+.menus li {
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 10px 0;
+}
+
+.control {
+  margin: 3px 0;
+  color: #67757f;
+}
+
+.menus {
+  width: 100%;
+  height: calc(100% - 19px);
+  cursor: pointer;
+  z-index: 100;
+  overflow: scroll;
+  white-space: nowrap;
+}
+
+.menus li {
+  display: block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+}
+
+.menus li:hover {
+  background-color: #EFEFEF;
+}
+
+.is-play {
+  color: #000000;
+  font-weight: bold;
+}

@@ -1,0 +1,109 @@
+.play-bar {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  width: 100%;
+  transition: all 0.5s;
+}
+
+.play-bar .fold {
+  position: absolute;
+  bottom: 70px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.play-bar .progress {
+  position: absolute;
+  margin-top: -10px;
+}
+
+.play-bar .control-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  background-color: #fefefe;
+}
+
+.play-bar .control-box .song-ctr {
+  position: relative;
+  margin: auto;
+  flex-wrap: nowrap;
+}
+
+.play-bar .control-box .song-ctr svg {
+  width: 5rem;
+  cursor: pointer;
+}
+
+.play-bar .control-box .info-box .song-bar-img {
+  width: calc($play-bar-height - 15px);
+  height: calc($play-bar-height - 15px);
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.play-bar .control-box .info-box .song-info {
+  font-size: 14px;
+}
+
+.play-bar .control-box .info-box .time-info {
+  font-size: 12px;
+  color: #67757f;
+}
+
+.play-bar .control-box .song-edit {
+  width: 30%;
+  justify-content: flex-end;
+}
+
+.turn {
+  transform: rotate(180deg);
+}
+
+.show {
+  bottom: -55px;
+}
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  font-size: 1.1em;
+  color: #000000;
+  fill: currentColor;
+  overflow: hidden;
+  position: relative;
+}
+
+.active.icon {
+  color: #f56c6c;
+}
+
+@media screen and (min-width: 668px) {
+  .info-box {
+    width: 30%;
+    min-width: 200px;
+    margin-left: 30px;
+  }
+  .song-ctr,
+  .info-box,
+  .song-edit {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 668px) {
+  .info-box {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    margin-left: 10px;
+  }
+  .penis-play-show {
+    display: none;
+  }
+}
