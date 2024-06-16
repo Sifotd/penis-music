@@ -20,7 +20,7 @@ contract MyNFT is ERC721, Ownable {
     uint256[] tokenIds;//存储每个用户的nftid
 }
     constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {
-        _totalSupply = 1;
+        _totalSupply = 0;
     }
    
 
@@ -64,12 +64,12 @@ contract MyNFT is ERC721, Ownable {
         //更新发送者，接收者拥有的tokenid
 //移除发送者的tokenId
 uint256 removeId =searchRemove(from, tokenId);
-if(removeId !=uint256(-1)){
+
     userTokenId[from].tokenIds[removeId] = userTokenId[from].tokenIds[userTokenId[from].tokenIds.length-1];//与末尾交换位置
     userTokenId[from].tokenIds.pop();//移除
     totalOwn[from]--;//拥有数量-1
 
-}
+
 //增加接收者的nft记录
 userTokenId[to].tokenIds.push(tokenId);//增加
 totalOwn[to]++;
@@ -83,7 +83,7 @@ totalOwn[to]++;
            return i;
                }
         }
-    return uint256(-1);//返回无效值
+    return 0;//返回无效值
     }
 
 }
