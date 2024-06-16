@@ -37,7 +37,7 @@ contract NFTMarket {
     }
 
     //购买NFT
-    function buyNFT(address buyer, uint orderId) public {
+    function buyNFT(address buyer, uint orderId) public payable {
         uint price = orderData[orderId].price;
         uint tokenId = orderData[orderId].tokenId;
         address seller = orderData[orderId].sellAddr;
@@ -49,7 +49,7 @@ contract NFTMarket {
     }
 
     //移出指定订单
-    function removeOrder(address seller, uint orderId) public {
+    function removeOrder(address seller, uint orderId) internal {
         address _seller = orderData[orderId].sellAddr;
         require(seller == _seller);
 
@@ -71,7 +71,7 @@ contract NFTMarket {
     //根据指定orderId获取订单信息
     function getOrderDate(
         uint orderId
-    ) public returns (uint tokenId, address sellerAddr, uint price) {
+    ) public view returns (uint tokenId, address sellerAddr, uint price) {
         tokenId = orderData[orderId].tokenId;
         sellerAddr = orderData[orderId].sellAddr;
         price = orderData[orderId].price;
