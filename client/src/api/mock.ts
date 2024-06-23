@@ -21,7 +21,45 @@ const HttpManager = {
 
   // =======================> 歌单 API 完成
   // 获取全部歌单
-  getSongList: () => Promise.resolve({data:[]}),
+  getSongList: () => Promise.resolve({
+    data: [
+      {
+        id: 1,
+        name: '休闲',
+        title: 'music for you',
+        price: '7.45EDU',
+        pic: 'https://img10.360buyimg.com/n1/jfs/t1/95339/37/34774/160282/64c913c9Fed894541/d16c13ccc4dd7e21.jpg'
+      },
+      {
+        id: 2,
+        name: '蓝调',
+        title: 'music for you',
+        price: '2.44EDU',
+        pic: 'https://wx3.sinaimg.cn/mw690/006ebK81ly1hpey1zeknzj32c03404qp.jpg'
+      },
+      {
+        id: 3,
+        name: '乡村',
+        title: 'music for you',
+        price: '9.35EDU',
+        pic: 'https://img2.baidu.com/it/u=2941341201,1677713469&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=750'
+      },
+      {
+        id: 4,
+        name: '民谣',
+        title: 'music for you',
+        price: '5.25EDU',
+        pic: 'https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_300x300.jpeg?from=2956013662'
+      },
+      {
+        id: 5,
+        name: '民谣',
+        title: 'music for you',
+        price: '5.25EDU',
+        pic: 'https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_300x300.jpeg?from=2956013662'
+      }
+    ]
+  }),
   // 获取歌单类型
   getSongListOfStyle: (style) => get(`songList/style/detail?style=${style}`),
   // 返回标题包含文字的歌单

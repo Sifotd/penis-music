@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, getCurrentInstance, reactive } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
 import mixin from "@/mixins/mixin";
 import { AREA, SignUpRules } from "@/enums";
 import { HttpManager } from "@/api";
@@ -45,7 +45,7 @@ import { getBirth } from "@/utils";
 export default defineComponent({
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
     const { goBack } = mixin();
 
     // 注册
@@ -59,7 +59,7 @@ export default defineComponent({
       location: "",
       userPic: "",
     });
-    const userId = computed(() => store.getters.userId);
+    const userId = computed(() => userStore.userId);
 
     async function getUserInfo(id) {
       const result = (await HttpManager.getUserOfId(id)) as ResponseBody;

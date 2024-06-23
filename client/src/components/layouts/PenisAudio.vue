@@ -11,13 +11,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, getCurrentInstance, computed, watch } from "vue";
-import { useStore } from "vuex";
+import { useSong } from "@/store/song";
 import { HttpManager } from "@/api";
 
 export default defineComponent({
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const songStore = useSong();
     const divRef = ref<HTMLAudioElement>();
     const player = (el) => {
       divRef.value = el;
@@ -40,11 +40,11 @@ export default defineComponent({
     }
 
 
-    const songUrl = computed(() => store.getters.songUrl); // 音乐链接
-    const isPlay = computed(() => store.getters.isPlay); // 播放状态
-    const volume = computed(() => store.getters.volume); // 音量
-    const changeTime = computed(() => store.getters.changeTime); // 指定播放时刻
-    const autoNext = computed(() => store.getters.autoNext); // 用于触发自动播放下一首
+    const songUrl = computed(() => songStore.songUrl); // 音乐链接
+    const isPlay = computed(() => songStore.isPlay); // 播放状态
+    const volume = computed(() => songStore.volume); // 音量
+    const changeTime = computed(() => songStore.changeTime); // 指定播放时刻
+    const autoNext = computed(() => songStore.autoNext); // 用于触发自动播放下一首
     // 监听播放还是暂停
     watch(isPlay, () => togglePlay());
     // 跳到指定时刻播放

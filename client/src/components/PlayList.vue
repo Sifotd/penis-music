@@ -9,7 +9,10 @@
             <penis-icon class="mask-icon" :icon="BOFANG"></penis-icon>
           </div>
         </div>
-        <p class="card-name">{{ item.name || item.title }}</p>
+        <div class="flex justify-between">
+          <div class="card-name">{{ item.name || item.title }}</div>
+          <div class="card-name">{{ item.price }}</div>
+        </div>
       </li>
     </ul>
   </div>
@@ -122,6 +125,13 @@ export default defineComponent({
     opacity: 1;
     cursor: pointer;
   }
+}
+
+.card-frame {
+  box-shadow: 3px 3px 3px rgba(200, 200, 200, .3);
+  border: 1px solid rgba(200, 200, 200, .3);
+  border-radius: 5px;
+  padding: 5px;
 }
 
 @media screen and (min-width: $sm) {

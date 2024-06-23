@@ -28,7 +28,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, getCurrentInstance } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
+import { useSong } from "@/store/song";
 import mixin from "@/mixins/mixin";
 import SongList from "@/components/SongList.vue";
 import Comment from "@/components/Comment.vue";
@@ -41,7 +42,8 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
+    const songStore = useSong();
     const { checkStatus } = mixin();
 
     const currentSongList = ref([]); // 存放的音乐
@@ -51,8 +53,8 @@ export default defineComponent({
     const disabledRank = ref(false);
     const assistText = ref("评价");
     // const evaluateList = ref(["很差", "较差", "还行", "推荐", "力推"]);
-    const songDetails = computed(() => store.getters.songDetails); // 单个歌单信息
-    const nowUserId = computed(() => store.getters.userId);
+    const songDetails = computed(() => songStore.songDetails); // 单个歌单信息
+    const nowUserId = computed(() => userStore.userId);
   
     nowSongListId.value = songDetails.value.id; // 给歌单ID赋值
   

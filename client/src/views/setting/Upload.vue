@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, getCurrentInstance } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
 import { UploadFilled } from "@element-plus/icons-vue";
 import { HttpManager } from "@/api";
 
@@ -22,10 +22,10 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
 
     const uploadTypes = ref(["jpg", "jpeg", "png", "gif"]);
-    const userId = computed(() => store.getters.userId);
+    const userId = computed(() => userStore.userId);
 
     function uploadUrl() {
       return HttpManager.uploadUrl(userId.value);

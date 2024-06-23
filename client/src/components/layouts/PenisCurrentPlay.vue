@@ -25,23 +25,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { defineComponent, computed, onMounted } from "vue";
+import { useSong } from '@/store/song'
+import { useConfigure } from '@/store/configure'
 import mixin from "@/mixins/mixin";
 
 export default defineComponent({
   setup() {
-    const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const songStore = useSong();
+    const configureStore = useConfigure();
     const { getSongTitle, playMusic } = mixin();
 
-    const songId = computed(() => store.getters.songId); // 音乐 ID
-    const currentPlayList = computed(() => store.getters.currentPlayList); // 当前播放
-    const showAside = computed(() => store.getters.showAside); // 是否显示侧边栏
+    const songId = computed(() => songStore.songId); // 音乐 ID
+    const currentPlayList = computed(() => songStore.currentPlayList); // 当前播放
+    const showAside = computed(() => configureStore.showAside); // 是否显示侧边栏
 
     onMounted(() => {
       document.addEventListener('click', () => {
-        proxy.$store.commit('setShowAside', false)
+        configureStore.setShowAside(false)
       }, true)
     })
 

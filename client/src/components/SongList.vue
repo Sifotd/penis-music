@@ -30,11 +30,12 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, toRefs, computed, reactive } from "vue";
-import { useStore } from "vuex";
+import { useSong } from '@/store/song'
+import { useUser } from '@/store/user'
 import { MoreFilled, Delete, Download } from "@element-plus/icons-vue";
 
 import mixin from "@/mixins/mixin";
-import { HttpManager } from "@/api";
+import { HttpManager } from "@/api/mock";
 import { Icon } from "@/enums";
 
 export default defineComponent({
@@ -51,7 +52,8 @@ export default defineComponent({
   setup(props) {
     const { getSongTitle, getSingerName, playMusic, checkStatus, downloadMusic } = mixin();
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const songStore = useSong();
+    const userStore = useUser();
 
     const { songList } = toRefs(props);
 
@@ -60,9 +62,9 @@ export default defineComponent({
       like: Icon.Like,
     });
 
-    const songUrl = computed(() => store.getters.songUrl);
-    const singerName = computed(() => store.getters.singerName);
-    const songTitle = computed(() => store.getters.songTitle);
+    const songUrl = computed(() => songStore.songUrl);
+    const singerName = computed(() => songStore.singerName);
+    const songTitle = computed(() => songStore.songTitle);
     const dataList = computed(() => {
       const list = [];
       songList.value.forEach((item: any, index) => {
@@ -90,7 +92,7 @@ export default defineComponent({
       console.log("row", row);
     }
 
-    const userId = computed(() => store.getters.userId);
+    const userId = computed(() => userStore.userId);
 
     async function deleteCollection({ id }) {
       if (!checkStatus()) return;

@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, nextTick, ref, computed, watch, reactive } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
 import { Edit } from "@element-plus/icons-vue";
 import SongList from "@/components/SongList.vue";
 import Upload from "../setting/Upload.vue";
@@ -35,7 +35,7 @@ export default defineComponent({
     Upload,
   },
   setup() {
-    const store = useStore();
+    const userStore = useUser();
 
     const { routerManager } = mixin();
 
@@ -48,8 +48,8 @@ export default defineComponent({
       location: "",
       introduction: "",
     });
-    const userId = computed(() => store.getters.userId);
-    const userPic = computed(() => store.getters.userPic);
+    const userId = computed(() => userStore.userId);
+    const userPic = computed(() => userStore.userPic);
     watch(userPic, () => {
       dialogTableVisible.value = false;
     });

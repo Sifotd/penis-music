@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
-import { useStore } from "vuex";
+import { useSong } from "@/store/song";
 import Comment from "@/components/Comment.vue";
 import { parseLyric } from "@/utils";
 import { HttpManager } from "@/api";
@@ -39,18 +39,18 @@ export default defineComponent({
     Comment,
   },
   setup() {
-    const store = useStore();
+    const songStore = useSong();
 
     const lrcTop = ref("80px"); // 歌词滑动
     const lyricArr = ref([]); // 当前歌曲的歌词
-    const songId = computed(() => store.getters.songId); // 歌曲ID
-    const lyric = computed(() => store.getters.lyric); // 歌词
-    const currentPlayList = computed(() => store.getters.currentPlayList); // 存放的音乐
-    const currentPlayIndex = computed(() => store.getters.currentPlayIndex); // 当前歌曲在歌曲列表的位置
-    const curTime = computed(() => store.getters.curTime);
-    const songTitle = computed(() => store.getters.songTitle); // 歌名
-    const singerName = computed(() => store.getters.singerName); // 歌手名
-    const songPic = computed(() => store.getters.songPic); // 歌曲图片
+    const songId = computed(() => songStore.songId); // 歌曲ID
+    const lyric = computed(() => songStore.lyric); // 歌词
+    const currentPlayList = computed(() => songStore.currentPlayList); // 存放的音乐
+    const currentPlayIndex = computed(() => songStore.currentPlayIndex); // 当前歌曲在歌曲列表的位置
+    const curTime = computed(() => songStore.curTime);
+    const songTitle = computed(() => songStore.songTitle); // 歌名
+    const singerName = computed(() => songStore.singerName); // 歌手名
+    const songPic = computed(() => songStore.songPic); // 歌曲图片
     watch(songId, () => {
       lyricArr.value = parseLyric(currentPlayList.value[currentPlayIndex.value].lyric);
     });

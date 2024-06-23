@@ -18,14 +18,14 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed, reactive } from "vue";
-import { useStore } from "vuex";
+import { useUser } from '@/store/user';
 import mixin from "@/mixins/mixin";
 import { HttpManager } from "@/api";
 import { validatePassword } from "@/enums";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
+    const userStore = useUser();
     const { proxy } = getCurrentInstance();
     const { goBack } = mixin();
 
@@ -34,8 +34,8 @@ export default defineComponent({
       newPassword: "",
       confirmPassword: "",
     });
-    const userId = computed(() => store.getters.userId);
-    const userName = computed(() => store.getters.username);
+    const userId = computed(() => userStore.userId);
+    const userName = computed(() => userStore.username);
 
     const validateCheck = (rule: any, value: any, callback: any) => {
       if (value === "") {

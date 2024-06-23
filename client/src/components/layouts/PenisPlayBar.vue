@@ -65,12 +65,15 @@
 
 <script lang="ts">
 import {computed, defineComponent, getCurrentInstance, onMounted, ref, watch} from "vue";
-import {mapGetters, useStore} from "vuex";
+import { mapState } from 'pinia'
 import mixin from "@/mixins/mixin";
 import PenisIcon from "./PenisIcon.vue";
 import {HttpManager} from "@/api";
 import {formatSeconds} from "@/utils";
 import {Icon, RouterName} from "@/enums";
+import { useUser } from '@/store/user'
+import { useSong } from '@/store/song'
+import { useConfigure } from '@/store/configure'
 
 export default defineComponent({
   components: {
@@ -78,14 +81,16 @@ export default defineComponent({
   },
   setup() {
     const {proxy} = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
+    const songStore = useSong();
+    const configureStore = useConfigure();
     const {routerManager, playMusic, checkStatus, downloadMusic} = mixin();
 
     const isCollection = ref(false); // 是否收藏
 
-    const userIdVO = computed(() => store.getters.userId);
-    const songIdVO = computed(() => store.getters.songId);
-    const token = computed(() => store.getters.token);
+    const userIdVO = computed(() => userStore.userId);
+    const songIdVO = computed(() => songStore.songId);
+    const token = computed(() => configureStore.token);
 
     watch(songIdVO, () => {
       initCollection();
@@ -159,8 +164,13 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters([
-      "userId",
+    ...mapState(useUser, [
+      "userId"
+    ]),
+    ...mapState(useConfigure, [
+      "showAside" // 是否显示侧边栏
+    ]),
+    ...mapState(useSong, [
       "isPlay", // 播放状态
       "playBtnIcon", // 播放状态的图标
       "songId", // 音乐id
@@ -169,20 +179,19 @@ export default defineComponent({
       "singerName", // 歌手名
       "songPic", // 歌曲图片
       "curTime", // 当前音乐的播放位置
-      "duration", // 音乐时长
+      "duration", // 音乐时长ds
       "currentPlayList",
       "currentPlayIndex", // 当前歌曲在歌曲列表的位置
-      "showAside", // 是否显示侧边栏
       "autoNext", // 用于触发自动播放下一首
     ]),
   },
   watch: {
     // 切换播放状态的图标
     isPlay(value) {
-      this.$store.commit("setPlayBtnIcon", value ? Icon.ZANTING : Icon.BOFANG);
+      songStore.setPlayBtnIcon(value ? Icon.ZANTING : Icon.BOFANG)
     },
     volume() {
-      this.$store.commit("setVolume", this.volume / 100);
+      songStore.setVolume(this.volume / 100)
     },
     // 播放时间的开始和结束
     curTime() {
@@ -198,14 +207,14 @@ export default defineComponent({
   },
   methods: {
     changeAside() {
-      this.$store.commit("setShowAside", !this.showAside);
+      configureStore.setShowAside(!this.showAside)
     },
     // 控制音乐播放 / 暂停
     togglePlay() {
-      this.$store.commit("setIsPlay", this.isPlay ? false : true);
+      songStore.setIsPlay(this.isPlay ? false : true)
     },
     changeTime() {
-      this.$store.commit("setChangeTime", this.duration * (this.nowTime * 0.01));
+      songStore.setChangeTime(this.duration * (this.nowTime * 0.01))
     },
     changePlayState() {
       this.playStateIndex = this.playStateIndex >= this.playStateList.length - 1 ? 0 : ++this.playStateIndex;
@@ -216,14 +225,14 @@ export default defineComponent({
       if (this.playState === Icon.LUANXU) {
         let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
         playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
-        this.$store.commit("setCurrentPlayIndex", playIndex);
+        songStore.setCurrentPlayIndex(playIndex)
         this.toPlay(this.currentPlayList[playIndex].url);
       } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
         if (this.currentPlayIndex > 0) {
-          this.$store.commit("setCurrentPlayIndex", this.currentPlayIndex - 1);
+          songStore.setCurrentPlayIndex(this.currentPlayIndex - 1)
           this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
         } else {
-          this.$store.commit("setCurrentPlayIndex", this.currentPlayList.length - 1);
+          songStore.setCurrentPlayIndex(this.currentPlayList.length - 1)
           this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
         }
       }
@@ -233,14 +242,14 @@ export default defineComponent({
       if (this.playState === Icon.LUANXU) {
         let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
         playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
-        this.$store.commit("setCurrentPlayIndex", playIndex);
+        songStore.setCurrentPlayIndex(playIndex)
         this.toPlay(this.currentPlayList[playIndex].url);
       } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
         if (this.currentPlayIndex < this.currentPlayList.length - 1) {
-          this.$store.commit("setCurrentPlayIndex", this.currentPlayIndex + 1);
+          songStore.setCurrentPlayIndex(this.currentPlayIndex + 1)
           this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
         } else {
-          this.$store.commit("setCurrentPlayIndex", 0);
+          songStore.setCurrentPlayIndex(0)
           this.toPlay(this.currentPlayList[0].url);
         }
       }

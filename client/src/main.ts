@@ -1,22 +1,17 @@
-import { createApp } from "vue";
+import { createApp } from 'vue'
 import ElementPlus from "element-plus";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import "element-plus/dist/index.css";
 import "./assets/css/index.scss";
 import "./assets/icons/index.js";
 
-import { ComponentCustomProperties } from "vue";
-import { Store } from "vuex";
-declare module "@vue/runtime-core" {
-  interface State {
-    count: number;
-  }
+import App from './App.vue'
+import { createPinia } from 'pinia'
+import router from './router';
 
-  interface ComponentCustomProperties {
-    $store: Store<State>;
-  }
-}
+import "element-plus/dist/index.css";
 
-createApp(App).use(store).use(router).use(ElementPlus).mount("#app");
+
+createApp(App)
+  .use(createPinia())
+  .use(router)
+  .use(ElementPlus)
+  .mount('#app')

@@ -1,6 +1,7 @@
 import { getCurrentInstance, computed } from "vue";
-import { useStore } from "vuex";
-import { LocationQueryRaw } from "vue-router";
+import { useSong} from "@/store/song";
+import { useConfigure} from "@/store/configure";
+import { LocationQueryRaw, useRouter } from "vue-router";
 import { RouterName } from "@/enums";
 import { HttpManager } from "@/api";
 import axios from 'axios'
@@ -12,8 +13,9 @@ interface routerOptions {
 export default function () {
   const { proxy } = getCurrentInstance();
 
-  const store = useStore();
-  const token = computed(() => store.getters.token);
+  const songStore = useSong();
+  const configureStore = useConfigure();
+  const token = computed(() => configureStore.token);
 
   function getUserSex(sex) {
     if (sex === 0) {
@@ -48,9 +50,9 @@ export default function () {
 
   // 播放
   function playMusic({ id, url, pic, index, name, lyric, currentSongList }) {
-    const songTitle = getSongTitle(name);
-    const singerName = getSingerName(name);
-    proxy.$store.dispatch("playMusic", {
+    const songTitle = getSongTitle(name)
+    const singerName = getSingerName(name)
+    songStore.playMusic({
       id,
       url,
       pic,
@@ -59,7 +61,7 @@ export default function () {
       singerName,
       lyric,
       currentSongList,
-    });
+    })
   }
 
   function getFileName(path) {
@@ -116,13 +118,14 @@ export default function () {
 
   // 导航索引
   function changeIndex(value) {
-    proxy.$store.commit("setActiveNavName", value);
+    configureStore.setActiveNavName(value);
   }
   // 路由管理
   function routerManager(routerName: string | number, options: routerOptions) {
+    const router = useRouter();
     switch (routerName) {
       case RouterName.Search:
-        proxy.$router.push({ path: options.path, query: options.query });
+        router.push({ path: options.path, query: options.query });
         break;
       case RouterName.Home:
       case RouterName.SongSheet:
@@ -138,13 +141,14 @@ export default function () {
       case RouterName.Lyric:
       case RouterName.Error:
       default:
-        proxy.$router.push({ path: options.path });
+        router.push({ path: options.path });
         break;
     }
   }
 
   function goBack(step = -1) {
-    proxy.$router.go(step);
+    const router = useRouter();
+    router.go(step);
   }
 
   return {
