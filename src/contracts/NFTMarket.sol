@@ -2,14 +2,19 @@
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
+import "./interface/IMain.sol";
+
 pragma solidity ^0.8.0;
 
 contract NFTMarket {
     constructor(address _NFTAddress) {
         NFTAddress = _NFTAddress;
+        owner = msg.sender;
     }
 
     address NFTAddress;
+
+    address owner;
 
     struct Order {
         uint orderId;
@@ -34,6 +39,7 @@ contract NFTMarket {
         userTotalOrder[seller] += 1;
         userOrder[seller][userTotalOrder[seller]] = OrderIndex;
         allOrder[totalOrder] = Order(OrderIndex, tokenId, seller, price);
+        // ERC721(NFTAddress).approve(owner,tokenId);
     }
 
     //购买NFT
@@ -42,8 +48,11 @@ contract NFTMarket {
         uint tokenId = orderData[orderId].tokenId;
         address seller = orderData[orderId].sellAddr;
 
-        require(msg.value >= price);
-        ERC721(NFTAddress).safeTransferFrom(address(this), buyer, tokenId);
+        require(msg.value >= price,"price is too low");
+
+        // IMain(owner).transferFrom(address(this), buyer, tokenId);
+        ERC721(NFTAddress).approve(address(this),tokenId);
+        ERC721(NFTAddress).transferFrom(address(this), buyer, tokenId);
 
         removeOrder(seller, orderId);
     }
