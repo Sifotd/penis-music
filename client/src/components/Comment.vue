@@ -29,7 +29,8 @@
 <script lang="ts" setup>
 
 import { defineProps, getCurrentInstance, ref, toRefs, computed, watch, reactive, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user"
+import { useSong } from "@/store/song"
 import { Delete } from "@element-plus/icons-vue";
 
 import PenisIcon from "@/components/layouts/PenisIcon.vue";
@@ -39,7 +40,8 @@ import { Icon } from "@/enums";
 import { formatDate } from "@/utils";
 
 const { proxy } = getCurrentInstance();
-const store = useStore();
+const useStore = useUser();
+const songStore = useSong();
 const { checkStatus } = mixin();
 
 
@@ -56,8 +58,8 @@ const iconList = reactive({
   Support: Icon.Support,
 });
 
-const userId = computed(() => store.getters.userId);
-const songId = computed(() => store.getters.songId);
+const userId = computed(() => useStore.userId);
+const songId = computed(() => songStore.songId);
 
 watch(songId, () => {
   getComment(songId.value);

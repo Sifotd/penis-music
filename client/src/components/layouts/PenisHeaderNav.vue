@@ -1,6 +1,6 @@
 <template>
   <ul class="penis-header-nav">
-    <li :class="{ active: item.name === activeName }" v-for="item in styleList" :key="item.path" @click="handleChangeView(item)">
+    <li v-for="item in styleList" :class="{ active: item.name === activeName }" :key="item.path" @click="handleChangeView(item)">
       {{ item.name }}
     </li>
   </ul>

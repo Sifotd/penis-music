@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, onMounted, getCurrentInstance } from "vue";
-import { useStore } from "vuex";
+import { useConfigure } from "@/store/configure";
 import SongList from "@/components/SongList.vue";
 import { HttpManager } from "@/api";
 
@@ -16,10 +16,10 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const configureStore = useConfigure();
 
     const currentSongList = ref([]); // 存放的音乐
-    const searchWord = computed(() => store.getters.searchWord);
+    const searchWord = computed(() => configureStore.searchWord);
     watch(searchWord, (value) => {
       searchSong(value);
     });

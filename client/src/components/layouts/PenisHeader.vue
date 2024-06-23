@@ -11,7 +11,9 @@
       <el-input placeholder="搜索" :prefix-icon="Search" v-model="keywords" @keyup.enter="goSearch()" />
     </div>
     <!--设置-->
-    <penis-header-nav v-if="!token" :styleList="signList" :activeName="activeNavName" @click="goPage"></penis-header-nav>
+    <div class="penis-header-nav">
+      <el-button size="large" @click="walletConnect">连接钱包</el-button>
+    </div>
     <el-dropdown class="user-wrap" v-if="token" trigger="click">
       <el-image class="user" fit="contain" :src="attachImageUrl(userPic)" />
       <template #dropdown>
@@ -26,12 +28,14 @@
 <script lang="ts">
 import { defineComponent, ref, getCurrentInstance, computed, reactive } from "vue";
 import { Search } from "@element-plus/icons-vue";
-import { useStore } from "vuex";
+import { useUser } from '@/store/user';
+import { useConfigure } from '@/store/configure';
 import PenisIcon from "./PenisIcon.vue";
 import PenisHeaderNav from "./PenisHeaderNav.vue";
 import mixin from "@/mixins/mixin";
-import { HEADERNAVLIST, SIGNLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
+import { HEADERNAVLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
 import { HttpManager } from "@/api";
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   components: {
@@ -40,20 +44,20 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
+    const configureStore = useConfigure();
     const { changeIndex, routerManager } = mixin();
 
     const musicName = ref(MUSICNAME);
     const headerNavList = ref(HEADERNAVLIST); // 左侧导航栏
-    const signList = ref(SIGNLIST); // 右侧导航栏
     const menuList = ref(MENULIST); // 用户下拉菜单项
     const iconList = reactive({
       ERJI: Icon.ERJI,
     });
     const keywords = ref("");
-    const activeNavName = computed(() => store.getters.activeNavName);
-    const userPic = computed(() => store.getters.userPic);
-    const token = computed(() => store.getters.token);
+    const activeNavName = computed(() => configureStore.activeNavName);
+    const userPic = computed(() => userStore.userPic);
+    const token = computed(() => configureStore.token);
 
     function goPage(path, name) {
       if (!path && !name) {
@@ -63,6 +67,11 @@ export default defineComponent({
         changeIndex(name);
         routerManager(path, { path });
       }
+    }
+
+    function walletConnect() {
+      // 获取到权限key
+      ElMessage("wallet connecting...");
     }
 
     function goMenuList(path) {
@@ -89,11 +98,11 @@ export default defineComponent({
     return {
       musicName,
       headerNavList,
-      signList,
       menuList,
       iconList,
       keywords,
       activeNavName,
+      walletConnect,
       userPic,
       token,
       Search,

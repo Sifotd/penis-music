@@ -1,4 +1,4 @@
-@import "var.scss";
+@import "./var.scss";
 
 // 上下左右居中
 @mixin layout($justify-content: flex-start, $align-items: stretch, $flex-direction: row, $flex-wrap: nowrap) {

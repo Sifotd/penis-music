@@ -1,28 +1,25 @@
-export default {
-  state: {
-    token: false, // 用户是否登录
-    showAside: false, // 是否显示侧边栏
-    searchWord: "", // 搜索关键词
-    activeNavName: "", // 导航栏名称
+import { defineStore } from 'pinia'
+export const useConfigure = defineStore('configure', {
+  state: () => {
+    return {
+      token: false, // 用户是否登录
+      showAside: false, // 是否显示侧边栏
+      searchWord: "", // 搜索关键词
+      activeNavName: "", // 导航栏名称
+    }
   },
-  getters: {
-    token: (state) => state.token,
-    activeNavName: (state) => state.activeNavName,
-    showAside: (state) => state.showAside,
-    searchWord: (state) => state.searchWord,
-  },
-  mutations: {
-    setToken: (state, token) => {
-      state.token = token;
+  actions: {
+    setToken(token) {
+      this.token = token;
     },
-    setActiveNavName: (state, activeNavName) => {
-      state.activeNavName = activeNavName;
+    setActiveNavName(activeNavName) {
+      this.activeNavName = activeNavName;
     },
-    setShowAside: (state, showAside) => {
-      state.showAside = showAside;
+    setShowAside(showAside) {
+      this.showAside = showAside;
     },
-    setSearchWord: (state, searchWord) => {
-      state.searchWord = searchWord;
+    setSearchWord(searchWord) {
+      this.searchWord = searchWord;
     },
-  },
-};
+  }
+})

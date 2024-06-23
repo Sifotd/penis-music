@@ -19,16 +19,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/Home.vue"),
       },
       {
-        path: "/sign-in",
-        name: "sign-in",
-        component: () => import("@/views/SignIn.vue"),
-      },
-      {
-        path: "/sign-up",
-        name: "sign-up",
-        component: () => import("@/views/SignUp.vue"),
-      },
-      {
         path: "/personal",
         name: "personal",
         meta: {
@@ -102,9 +92,8 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
 ];
-
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

@@ -20,7 +20,7 @@ import { defineComponent, ref, computed } from "vue";
 import PenisNav from "@/components/layouts/PenisNav.vue";
 import PlayList from "@/components/PlayList.vue";
 import { SONGSTYLE } from "@/enums";
-import { HttpManager } from "@/api";
+import { HttpManager } from "@/api/mock";
 
 export default defineComponent({
   components: {

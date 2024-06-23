@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
 import mixin from "@/mixins/mixin";
 import SongList from "@/components/SongList.vue";
 import { HttpManager } from "@/api";
@@ -32,11 +32,11 @@ export default defineComponent({
     SongList,
   },
   setup() {
-    const store = useStore();
+    const userStore = useUser();
     const { getUserSex } = mixin();
 
     const currentSongList = ref([]);
-    const songDetails = computed(() => store.getters.songDetails) as any;
+    const songDetails = computed(() => userStore.songDetails) as any;
 
     onMounted(async () => {
       try {

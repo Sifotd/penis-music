@@ -21,7 +21,7 @@ import { Delete } from "@element-plus/icons-vue";
 import PersonalData from "./PersonalData.vue";
 import Password from "./Password.vue";
 import { HttpManager } from "@/api";
-import { useStore } from "vuex";
+import { useUser } from "@/store/user";
 import mixin from "@/mixins/mixin";
 import { RouterName } from "@/enums";
 
@@ -32,10 +32,10 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance();
-    const store = useStore();
+    const userStore = useUser();
     const { routerManager } = mixin();
 
-    const userId = computed(() => store.getters.userId);
+    const userId = computed(() => userStore.userId);
 
     async function cancelAccount() {
       const result = (await HttpManager.deleteUser(userId.value)) as ResponseBody;
