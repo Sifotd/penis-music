@@ -7,56 +7,63 @@ import "./NFTMarket.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract main {
-    MyNFT myNFT;
+contract main is Ownable {
+    PenisNFT penisNFT;
     NFTMarket nftMarket;
+    Ownable ownable;
 
     constructor() Ownable(msg.sender) {
-        myNFT = new MyNFT();
-        nftMarket = new NFTMarket(address(myNFT));
+        penisNFT = new PenisNFT();
+        nftMarket = new NFTMarket(address(penisNFT));
     }
 
     function mint(
         address to,
         string memory ipfsDownloadUrl,
-        string memory imageUri
-    ) public onlyOwner returns (uint256) {
-        myNFT.mint(to, ipfsDownloadUrl, imageUri);
+        string memory imageUrl
+    ) public onlyOwner returns(uint256 currentTokenId) {
+        penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
+        return currentTokenId =  penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
     }
 
     function setListingStatus(uint256 tokenId, bool isListed) public onlyOwner {
-        myNFT.setListingStatus(tokenId, isListed);
+        penisNFT.setListingStatus(tokenId, isListed);
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public {
-        myNFT.transferFrom(from, to, tokenId);
+        penisNFT.transferFrom(from, to, tokenId);
     }
 
     function listNFT(uint price, uint tokenId) public {
         address seller = msg.sender;
-        myNFT.transferFrom(seller, address(nftMarket), tokenId);
+        penisNFT.transferFrom(seller, address(nftMarket), tokenId);
         nftMarket.list(seller, price, tokenId);
     }
 
-    function buyNFT(uint orderId) public {
+    function buyNFT(uint orderId) public payable {
         address buyer = msg.sender;
-        nftMarket.buyNFT(buyer, orderId);
+        nftMarket.buyNFT{value: msg.value}(buyer, orderId);// 需要传入msg.value给market里的方法
+    }
+
+    function unlistNFT(uint orderId) public {
+        address seller = msg.sender;
+        nftMarket.unlistNFT(seller, orderId);
     }
 
     function getTokenData(
         uint256 tokenId
     ) public view returns (string memory, string memory, bool) {
-        return myNFT.getTokenData(tokenId);
+        return penisNFT.getTokenData(tokenId);
     }
 
     function getNft(address _owner) public view returns (uint256[] memory) {
-        return myNFT.getNft(_owner);
+        return penisNFT.getNft(_owner);
     }
 
-    function getOrderDate(
+    function getorderData(
         uint orderId
     ) public view returns (uint, address, uint) {
-        return nftMarket.getOrderDate(orderId);
+        return nftMarket.getorderData(orderId);
     }
 
     function getUserOrder(address user) public view returns (uint[] memory) {
@@ -66,4 +73,17 @@ contract main {
     function getExistAllOrder() public view returns (uint256) {
         return nftMarket.getExistAllOrder();
     }
+
+    function getNFTaddress() public view returns (address) {
+        return address(penisNFT);
+    }
+    
+    function getNFTMarketaddress() public view returns (address) {
+        return address(nftMarket);
+    }
+
+    function getNFTowner(uint tokenId) public view returns (address) {
+        return penisNFT.ownerOf(tokenId);
+    }
+
 }

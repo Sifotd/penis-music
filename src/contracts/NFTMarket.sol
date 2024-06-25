@@ -2,7 +2,6 @@
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-import "./interface/IMain.sol";
 
 pragma solidity ^0.8.0;
 
@@ -15,6 +14,14 @@ contract NFTMarket {
     address NFTAddress;
 
     address owner;
+
+    uint256 public contractBalance;
+
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
 
     struct Order {
         uint orderId;
@@ -32,7 +39,7 @@ contract NFTMarket {
     uint OrderIndex; //id生成器
 
     //上架NFT
-    function list(address seller, uint price, uint tokenId) public {
+    function list(address seller, uint price, uint tokenId) public onlyOwner{
         OrderIndex += 1;
         totalOrder += 1;
         orderData[OrderIndex] = Order(OrderIndex, tokenId, seller, price);
@@ -43,7 +50,7 @@ contract NFTMarket {
     }
 
     //购买NFT
-    function buyNFT(address buyer, uint orderId) public payable {
+    function buyNFT(address buyer, uint orderId) public payable onlyOwner{
         uint price = orderData[orderId].price;
         uint tokenId = orderData[orderId].tokenId;
         address seller = orderData[orderId].sellAddr;
@@ -54,13 +61,15 @@ contract NFTMarket {
         ERC721(NFTAddress).approve(address(this),tokenId);
         ERC721(NFTAddress).transferFrom(address(this), buyer, tokenId);
 
+        payable(seller).transfer(price);
+
         removeOrder(seller, orderId);
     }
 
     //移出指定订单
     function removeOrder(address seller, uint orderId) internal {
         address _seller = orderData[orderId].sellAddr;
-        require(seller == _seller);
+        require(seller == _seller, "the 'seller' parameter is not the order seller");
 
         for (uint256 index = 1; index < userTotalOrder[seller]; index++) {
             uint _orderId = userOrder[seller][index];
@@ -77,8 +86,15 @@ contract NFTMarket {
         totalOrder -= 1;
     }
 
+    function unlistNFT(address seller,uint orderId) public onlyOwner{
+        require(seller == orderData[orderId].sellAddr, "msg.sender is not the NFT owner");
+        uint tokenId = orderData[orderId].tokenId;
+        ERC721(NFTAddress).transferFrom(address(this), seller, tokenId);
+        removeOrder(seller, orderId);
+    }
+
     //根据指定orderId获取订单信息
-    function getOrderDate(
+    function getorderData(
         uint orderId
     ) public view returns (uint tokenId, address sellerAddr, uint price) {
         tokenId = orderData[orderId].tokenId;
