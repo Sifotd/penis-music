@@ -5,10 +5,10 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyNFT is ERC721, Ownable {
+contract PenisNFT is ERC721, Ownable {
     struct NFTData {
         string ipfsDownloadUrl;
-        string imageUri;
+        string imageUrl;
         bool isListed;
     }
 
@@ -27,11 +27,11 @@ contract MyNFT is ERC721, Ownable {
     function mint(
         address to,
         string memory ipfsDownloadUrl,
-        string memory imageUri
+        string memory imageUrl
     ) public onlyOwner returns (uint256) {
         uint256 newTokenId = _totalSupply + 1;
         _mint(to, newTokenId);
-        _tokenData[newTokenId] = NFTData(ipfsDownloadUrl, imageUri, false);
+        _tokenData[newTokenId] = NFTData(ipfsDownloadUrl, imageUrl, false);
         _totalSupply += 1;
 
         //更新用户拥有的tokenid
@@ -57,7 +57,7 @@ contract MyNFT is ERC721, Ownable {
             "ERC721: operator query for nonexistent token"
         );
         NFTData storage data = _tokenData[tokenId];
-        return (data.ipfsDownloadUrl, data.imageUri, data.isListed);
+        return (data.ipfsDownloadUrl, data.imageUrl, data.isListed);
     }
 
     function getNft(address _owner) public view returns (uint256[] memory) {

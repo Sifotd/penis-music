@@ -288,6 +288,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "getNft",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
@@ -352,7 +371,7 @@
 					},
 					{
 						"internalType": "string",
-						"name": "imageUri",
+						"name": "imageUrl",
 						"type": "string"
 					}
 				],
@@ -468,6 +487,30 @@
 				"name": "safeTransferFrom",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "searchRemove",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -857,11 +900,11 @@
 			]
 		},
 		"NFT.sol": {
-			"keccak256": "0x6c47d830b8a7877279362c6a4dce6c4ec7c13b90b7d9512c0e30848ed85e08be",
+			"keccak256": "0x1c4afc0bdc70dbec2689f75b1c28d48f52d0678392bfac04906b1f62c0aab805",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7508ac2e8c759ca432174758215aa5d1ebfa8c3e2c0dbe807577e3239c24331e",
-				"dweb:/ipfs/QmYYQMudDeubR3ZJgXyaXc2pTJgG8uZdKFBb1wM3raRito"
+				"bzz-raw://ef622f14d4c8fd6878ad1a6ca5b691dfc9d2acdecb4069ac3c90afc38469b6ae",
+				"dweb:/ipfs/QmRjqyMuWNgVPARtCGehFmMw87iY74imLL1Pb2QvwxUNtU"
 			]
 		}
 	},

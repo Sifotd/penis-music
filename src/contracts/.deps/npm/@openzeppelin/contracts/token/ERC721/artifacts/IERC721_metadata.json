@@ -347,7 +347,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"localhost/.deps/npm/@openzeppelin/contracts/token/ERC721/IERC721.sol": "IERC721"
+			".deps/npm/@openzeppelin/contracts/token/ERC721/IERC721.sol": "IERC721"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -361,7 +361,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"localhost/.deps/npm/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+		".deps/npm/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
 			"keccak256": "0x5ef46daa3b58ef2702279d514780316efaa952915ee1aa3396f041ee2982b0b4",
 			"license": "MIT",
 			"urls": [
@@ -369,7 +369,7 @@
 				"dweb:/ipfs/QmPV4ZS4tPVv4mTCf9ejyZ1ai57EEibDRj7mN2ARDCLV5n"
 			]
 		},
-		"localhost/.deps/npm/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+		".deps/npm/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
 			"keccak256": "0x4296879f55019b23e135000eb36896057e7101fb7fb859c5ef690cf14643757b",
 			"license": "MIT",
 			"urls": [
