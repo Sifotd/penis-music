@@ -17,6 +17,11 @@ contract NFTMarket {
 
     uint256 public contractBalance;
 
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
 
     struct Order {
         uint orderId;
@@ -34,7 +39,7 @@ contract NFTMarket {
     uint OrderIndex; //id生成器
 
     //上架NFT
-    function list(address seller, uint price, uint tokenId) public {
+    function list(address seller, uint price, uint tokenId) public onlyOwner{
         OrderIndex += 1;
         totalOrder += 1;
         orderData[OrderIndex] = Order(OrderIndex, tokenId, seller, price);
@@ -45,7 +50,7 @@ contract NFTMarket {
     }
 
     //购买NFT
-    function buyNFT(address buyer, uint orderId) public payable {
+    function buyNFT(address buyer, uint orderId) public payable onlyOwner{
         uint price = orderData[orderId].price;
         uint tokenId = orderData[orderId].tokenId;
         address seller = orderData[orderId].sellAddr;
@@ -81,7 +86,7 @@ contract NFTMarket {
         totalOrder -= 1;
     }
 
-    function unlistNFT(address seller,uint orderId) public {
+    function unlistNFT(address seller,uint orderId) public onlyOwner{
         require(seller == orderData[orderId].sellAddr, "msg.sender is not the NFT owner");
         uint tokenId = orderData[orderId].tokenId;
         ERC721(NFTAddress).transferFrom(address(this), seller, tokenId);
