@@ -7,7 +7,6 @@
       <router-view />
       <penis-current-play></penis-current-play>
       <penis-play-bar></penis-play-bar>
-      <penis-scroll-top></penis-scroll-top>
       <penis-audio></penis-audio>
     </el-main>
     <el-footer>
@@ -21,7 +20,6 @@ import { getCurrentInstance } from "vue";
 import PenisHeader from "@/components/layouts/PenisHeader.vue";
 import PenisCurrentPlay from "@/components/layouts/PenisCurrentPlay.vue";
 import PenisPlayBar from "@/components/layouts/PenisPlayBar.vue";
-import PenisScrollTop from "@/components/layouts/PenisScrollTop.vue";
 import PenisFooter from "@/components/layouts/PenisFooter.vue";
 import PenisAudio from "@/components/layouts/PenisAudio.vue";
 
@@ -41,7 +39,7 @@ window.addEventListener("beforeunload", () => {
 @import "@/assets/css/global.scss";
 
 .el-container {
-  min-height: calc(100% - 60px);
+  min-height: calc(100% - 80px);
 }
 .el-header {
   padding: 0;

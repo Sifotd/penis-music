@@ -1,18 +1,24 @@
 <template>
   <div class="penis-header">
     <!--图标-->
-    <div class="header-logo" @click="goPage()">
-      <penis-icon :icon="iconList.ERJI"></penis-icon>
+    <div class="flex" @click="goPage()">
+      <penis-icon class="w-8 mr-3" :icon="iconList.ERJI"></penis-icon>
       <span>{{ musicName }}</span>
     </div>
     <penis-header-nav class="penis-header-nav" :styleList="headerNavList" :activeName="activeNavName" @click="goPage"></penis-header-nav>
     <!--搜索框-->
-    <div class="header-search">
+    
+    <div class="flex-grow w-full ml-36 mr-72">
       <el-input placeholder="搜索" :prefix-icon="Search" v-model="keywords" @keyup.enter="goSearch()" />
     </div>
     <!--设置-->
     <div class="penis-header-nav">
-      <el-button size="large" @click="walletConnect">连接钱包</el-button>
+      <el-button v-if="!wallet" size="large" @click="walletConnect">连接钱包</el-button>
+      <el-button v-else size="large" @click="jumpToMyList">
+        <div class="text-ellipsis overflow-hidden w-[120px]">
+          {{ wallet.account }}
+        </div>
+      </el-button>
     </div>
     <el-dropdown class="user-wrap" v-if="token" trigger="click">
       <el-image class="user" fit="contain" :src="attachImageUrl(userPic)" />
@@ -36,6 +42,7 @@ import mixin from "@/mixins/mixin";
 import { HEADERNAVLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
 import { HttpManager } from "@/api";
 import { ElMessage } from 'element-plus'
+import { useWallet } from '@/api/wallets';
 
 export default defineComponent({
   components: {
@@ -58,6 +65,7 @@ export default defineComponent({
     const activeNavName = computed(() => configureStore.activeNavName);
     const userPic = computed(() => userStore.userPic);
     const token = computed(() => configureStore.token);
+    const wallet = ref();
 
     function goPage(path, name) {
       if (!path && !name) {
@@ -69,9 +77,10 @@ export default defineComponent({
       }
     }
 
-    function walletConnect() {
+    async function walletConnect() {
       // 获取到权限key
-      ElMessage("wallet connecting...");
+      wallet.value = await useWallet();
+      console.log('wallet', wallet);
     }
 
     function goMenuList(path) {
@@ -95,6 +104,10 @@ export default defineComponent({
       }
     }
 
+    function jumpToMyList() { 
+      // 跳到我的主页面
+    }
+
     return {
       musicName,
       headerNavList,
@@ -102,7 +115,9 @@ export default defineComponent({
       iconList,
       keywords,
       activeNavName,
+      wallet,
       walletConnect,
+      jumpToMyList,
       userPic,
       token,
       Search,
@@ -175,7 +190,7 @@ export default defineComponent({
 .header-search {
   margin: 0 20px;
   width: 100%;
-  &::v-deep input {
+  :deep(input) {
     text-indent: 5px;
     max-width: $header-search-max-width;
     min-width: $header-search-min-width;
