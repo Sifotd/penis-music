@@ -534,24 +534,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "isListed",
-						"type": "bool"
-					}
-				],
-				"name": "setListingStatus",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bytes4",
 						"name": "interfaceId",
 						"type": "bytes4"
@@ -900,11 +882,11 @@
 			]
 		},
 		"NFT.sol": {
-			"keccak256": "0x823c6fd8c7cea1ea9ccfddb289df3356c24ac740d6fdf6222f9d5b488fe61180",
+			"keccak256": "0xa19d1b8d180a590f4b26f6574046e78aaff355538ea5e8f6e3ac5e698c5487f3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d282873c537af09ebbd012948046ada8f728b4c75c578c75b9e0c37f99cb7eb7",
-				"dweb:/ipfs/Qmez6WHKjP1L9qca5ZQSQfgTuSQNs52QKXK9kTRLsTn7HU"
+				"bzz-raw://7611749f1c6559ab953dce3259a3fc2671bb88e3717553e3c29ca99e2983af5b",
+				"dweb:/ipfs/QmaHdWXqaNNyWY3T3XWgUphECp3tWjVt7UsCmdxsUbYvX3"
 			]
 		}
 	},

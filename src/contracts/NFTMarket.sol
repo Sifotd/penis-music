@@ -116,4 +116,50 @@ contract NFTMarket {
     function getExistAllOrder() public view returns (uint256) {
         return totalOrder;
     }
+
+    // 返回所有的OrderId
+    function getAllOrderIds() public view returns (uint[] memory) {
+        uint[] memory orderIds = new uint[](totalOrder);
+        for (uint256 i = 1; i <= totalOrder; i++) {
+            orderIds[i - 1] = orderData[i].orderId;
+        }
+        return orderIds;
+    
+    }
+
+    // 返回所有的Order信息
+    function getAllOrders() public view returns (Order[] memory) {
+        Order[] memory orders = new Order[](totalOrder);
+        for (uint256 i = 1; i <= totalOrder; i++) {
+            orders[i - 1] = allOrder[i];
+        }
+        return orders;
+    }
+
+    // 返回特定分页的Order
+    function getOrdersByPage(uint page, uint pageSize) public view returns (Order[] memory) {
+        require(page > 0, "Page number should be greater than 0");
+        require(pageSize > 0, "Page size should be greater than 0");
+
+        uint startIndex = (page - 1) * pageSize + 1;
+        uint endIndex = page * pageSize;
+
+        // 如果起始索引超过总订单数，则返回空数组
+        require(startIndex < totalOrder, "page should less than total Order number");
+
+        // 如果结束索引超过总订单数，则设置为总订单数
+        if (endIndex > totalOrder) {
+            endIndex = totalOrder;
+        }
+
+        uint length = endIndex - startIndex + 1;
+        Order[] memory orders = new Order[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            orders[i] = allOrder[startIndex + i];
+        }
+
+        return orders;
+    }
+
 }

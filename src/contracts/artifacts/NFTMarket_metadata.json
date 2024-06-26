@@ -49,12 +49,106 @@
 			},
 			{
 				"inputs": [],
+				"name": "getAllOrderIds",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllOrders",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "sellAddr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NFTMarket.Order[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getExistAllOrder",
 				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "page",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pageSize",
+						"type": "uint256"
+					}
+				],
+				"name": "getOrdersByPage",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "sellAddr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NFTMarket.Order[]",
+						"name": "",
+						"type": "tuple[]"
 					}
 				],
 				"stateMutability": "view",
@@ -266,11 +360,11 @@
 			]
 		},
 		"NFTMarket.sol": {
-			"keccak256": "0x571bbd57e046f4682369b61bdf615ee61b351e37055776961c8eb46512112ab4",
+			"keccak256": "0xcfa4fb6725e4d10131f8633d461a55e0d300782fb10cde76a65987033436ff2a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://44bcae4626884301f3ae6c421cd1672ed096e982d907f38230fa0cef4115d58c",
-				"dweb:/ipfs/QmRwpri8iPX1yu2PrJ9cxLxGa5dEs6JvXLswfa612ewxqd"
+				"bzz-raw://b5b673f58e21e75a8d0a55f1647e4261532b4b418e0add6f7d4056e38cf9102f",
+				"dweb:/ipfs/QmSLszFn1MTVWYnVAn66ThexiPGjCUKSGqBCnsvGSKWwGp"
 			]
 		}
 	},
