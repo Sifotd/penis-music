@@ -3,8 +3,7 @@ import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.2.3/ethe
 /*
 import abi 
 */
-import * as contractMainJson from "../../../../penis-music/src/ABI/Main.json" assert {type: "json"};
-import * as contractNFTMarketJson from "../../../../penis-music/src/ABI/NFTMarket.json" assert {type: "json"};
+import * as contractMainJson from "Main.json" assert {type: "json"};
 
 ///  1. 创建provider和wallet
 //这个就是RPC的地址 需要合约端提供
@@ -53,25 +52,27 @@ const GetOrderListByUser = async() => {
 }
 
 //前端渲染界面OrderList点击中间的item 传递给该函数 
-const GetOrderDetailByOrderId = async() =>{
+const GetOrderDetailByOrderId = async(orderId) =>{
     return await contractMain.getOrderDate(orderId);
 }
 
-const GetNftFromUser = async()=>{
+
+const GetNftFromUser = async(getWalletAddress)=>{
     return await contractMain.getNft(getWalletAddress);
 }
 
-const TokenId = async() => {
+const TokenId = async(tokenId) => {
     return await contractMain.getTokenData(tokenId);
 }
 //前端点击其中的一个item 把orderId 传进去
-const getNft = async() => {
+const getNft = async(orderId) => {
     return await contractMain.buyNFT(orderId);
 }
 
 //渲染整个Nft的列表
-const NftList = async() => {
+const NftList = async(price,tokenId) => {
     return await contractMain.listNFT(price,tokenId);
 }
-
+//const a  = await NftList(price,tokenId)
+//console.log(a)
 /// transferFrom方法用来空投的 而且这次的应用不涉及交易 先不写。
