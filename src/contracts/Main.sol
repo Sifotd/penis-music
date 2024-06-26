@@ -7,12 +7,12 @@ import "./NFTMarket.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract main is Ownable {
+contract main {
     PenisNFT penisNFT;
     NFTMarket nftMarket;
     Ownable ownable;
 
-    constructor() Ownable(msg.sender) {
+    constructor() {
         penisNFT = new PenisNFT();
         nftMarket = new NFTMarket(address(penisNFT));
     }
@@ -21,15 +21,11 @@ contract main is Ownable {
         address to,
         string memory ipfsDownloadUrl,
         string memory imageUrl
-    ) public onlyOwner returns(uint256 currentTokenId) {
-        penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
-        return currentTokenId =  penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
+    ) public returns(uint256) {
+        return penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
     }
 
-    function setListingStatus(uint256 tokenId, bool isListed) public onlyOwner {
-        penisNFT.setListingStatus(tokenId, isListed);
-    }
-
+    // 此功能前端暂不调用与实现
     function transferFrom(address from, address to, uint256 tokenId) public {
         penisNFT.transferFrom(from, to, tokenId);
     }
@@ -86,4 +82,15 @@ contract main is Ownable {
         return penisNFT.ownerOf(tokenId);
     }
 
+    function getAllOrderIds() public view returns(uint[] memory) {
+       return nftMarket.getAllOrderIds();
+    }
+
+    function getAllOrders() public view returns (NFTMarket.Order[] memory) {
+        return nftMarket.getAllOrders();
+    }
+
+    function getOrdersByPage(uint page, uint pageSize) public view returns (NFTMarket.Order[] memory) {
+       return nftMarket.getOrdersByPage(page, pageSize);
+    }
 }

@@ -41,14 +41,6 @@ contract PenisNFT is ERC721, Ownable {
         return newTokenId;
     }
 
-    function setListingStatus(uint256 tokenId, bool isListed) public onlyOwner {
-        require(
-            tokenId <= _totalSupply,
-            "ERC721: operator query for nonexistent token"
-        );
-        _tokenData[tokenId].isListed = isListed;
-    }
-
     function getTokenData(
         uint256 tokenId
     ) public view returns (string memory, string memory, bool) {
