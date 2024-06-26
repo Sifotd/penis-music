@@ -2,8 +2,8 @@ import { RouterName } from "./router-name";
 
 export const enum NavName {
   Home = "首页",
-  SongSheet = "歌单",
-  Singer = "歌手",
+  SongSheet = "探索",
+  Singer = "铸造",
   Personal = "个人主页",
   Setting = "设置",
   SignOut = "退出",

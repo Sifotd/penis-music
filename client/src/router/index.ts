@@ -72,6 +72,21 @@ const routes: Array<RouteRecordRaw> = [
         component: ()=> import("@/views/loginByemail.vue"),
       },
       {
+        path: "/detail",
+        name: "detail",
+        component: ()=> import("@/views/Detail.vue"),
+      },
+      {
+        path: "/upload",
+        name: "upload",
+        component: ()=> import("@/views/Upload.vue"),
+      },
+      {
+        path: "/mylist",
+        name: "mylist",
+        component: ()=> import("@/views/MyList.vue"),
+      },
+      {
         path: "/setting",
         name: "setting",
         meta: {

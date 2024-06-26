@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-@import "./var.scss";
-@import "./global.scss";
-
 html,
 body,
 div,
@@ -57,11 +52,15 @@ li {
 }
 
 .pagination {
-  @include layout(center);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: nowrap;
   transform: translateY(15px);
 }
 
-@media screen and (min-width: $sm) {
+@media screen and (min-width: 668px) {
   .play-list-container {
     margin: 0 8% 30px 8%;
   }

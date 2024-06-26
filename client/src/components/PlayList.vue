@@ -1,7 +1,6 @@
 <template>
   <div class="play-list">
-    <div class="play-title" v-if="title">{{ title }}</div>
-    <ul class="play-body">
+    <ul class="play-body mt-8">
       <li class="card-frame" v-for="(item, index) in playList" :key="index">
         <div class="card" @click="goAblum(item)">
           <el-image class="card-img" fit="contain" :src="attachImageUrl(item.pic)" />
@@ -14,45 +13,50 @@
           <div class="card-name">{{ item.price }}</div>
         </div>
       </li>
+      <li v-if="addNew" @click="jumpToUpload">
+        <div class="border cursor-pointer m-6 pb-6 rounded-sm border-black-600 text-9xl text-slate-200 w-[300px] h-[300px] flex justify-center items-center">+</div>
+      </li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, toRefs } from "vue";
+<script lang="ts" setup>
+import { getCurrentInstance, toRefs, ref } from "vue";
 
 import PenisIcon from "@/components/layouts/PenisIcon.vue";
 import mixin from "@/mixins/mixin";
 import { Icon } from "@/enums";
 import { HttpManager } from "@/api";
+import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  components: {
-    PenisIcon,
-  },
-  props: {
-    title: String,
-    playList: Array,
-    path: String,
-  },
-  setup(props) {
-    const { proxy } = getCurrentInstance();
-    const { routerManager } = mixin();
+const props = defineProps({
+  title: String,
+  playList: Array,
+  path: String,
+  addNew: {
+    type: Boolean,
+    default: false
+  }
+})
+const router = useRouter();
 
-    const { path } = toRefs(props);
+const BOFANG = ref(Icon.BOFANG)
+const attachImageUrl = ref(HttpManager.attachImageUrl)
 
-    function goAblum(item) {
-      proxy.$store.commit("setSongDetails", item);
-      routerManager(path.value, { path: `/${path.value}/${item.id}` });
-    }
+const { proxy } = getCurrentInstance();
+const { routerManager } = mixin();
 
-    return {
-      BOFANG: Icon.BOFANG,
-      goAblum,
-      attachImageUrl: HttpManager.attachImageUrl,
-    };
-  },
-});
+const { path } = toRefs(props);
+
+const goAblum = (item: any)  => {
+  proxy.$store.commit("setSongDetails", item);
+  routerManager(path.value, { path: `/${path.value}/${item.id}` });
+}
+
+const jumpToUpload = () => {
+  router.push('/upload');
+}
+
 </script>
 
 <style lang="scss" scoped>
