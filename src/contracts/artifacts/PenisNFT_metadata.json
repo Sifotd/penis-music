@@ -773,7 +773,7 @@
 		"compilationTarget": {
 			"src/contracts/NFT.sol": "PenisNFT"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -882,11 +882,11 @@
 			]
 		},
 		"src/contracts/NFT.sol": {
-			"keccak256": "0xa19d1b8d180a590f4b26f6574046e78aaff355538ea5e8f6e3ac5e698c5487f3",
+			"keccak256": "0x22fd977e2c7dbd67b51ac7520ea054ce58f7ada53c118ac28219197c1630266e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7611749f1c6559ab953dce3259a3fc2671bb88e3717553e3c29ca99e2983af5b",
-				"dweb:/ipfs/QmaHdWXqaNNyWY3T3XWgUphECp3tWjVt7UsCmdxsUbYvX3"
+				"bzz-raw://112642d1efb377e41c7532b9b9e53ea8437c4558477221cf17fe26325186e7e4",
+				"dweb:/ipfs/QmQ7ErfxNAJUTe5xT4jPNSiQhC4CpxAqVdHA4H3ewjkEqT"
 			]
 		}
 	},
