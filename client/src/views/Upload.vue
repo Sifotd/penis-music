@@ -26,7 +26,7 @@
           </el-form-item>
           <el-form-item>
             <el-button size="large">图片预览</el-button>
-            <el-button size="large" @click="step = 2">铸造</el-button>
+            <el-button size="large" @click="mint">铸造</el-button>
           </el-form-item>
         </el-form>
         <el-form v-if="step === 2" :model="form" label-width="auto" label-position="top">
@@ -67,11 +67,21 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useContract } from '@/api/contract';
 const step = ref(1)
+// const contract = await useContract();
+
+// console.log('contract', contract);
+
 const form = ref({
   imageUrl: '',
   musicUrl: ''
 });
+
+const mint = async () => {
+  const contract = await useContract();
+  contract.mint(form.musicUrl, form.imageUrl);
+}
 
 const value = ref('')
 

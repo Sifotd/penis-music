@@ -13,9 +13,6 @@
     <div class="personal-body">
       <song-list :songList="collectSongList" :show="true" @changeData="changeData"></song-list>
     </div>
-    <el-dialog v-model="dialogTableVisible" title="修改头像">
-      <upload></upload>
-    </el-dialog>
   </div>
 </template>
 
@@ -24,15 +21,13 @@ import { defineComponent, nextTick, ref, computed, watch, reactive } from "vue";
 import { useUser } from "@/store/user";
 import { Edit } from "@element-plus/icons-vue";
 import SongList from "@/components/SongList.vue";
-import Upload from "../setting/Upload.vue";
 import mixin from "@/mixins/mixin";
 import { HttpManager } from "@/api";
 import { RouterName } from "@/enums";
 
 export default defineComponent({
   components: {
-    SongList,
-    Upload,
+    SongList
   },
   setup() {
     const userStore = useUser();

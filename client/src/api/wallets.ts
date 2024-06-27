@@ -74,6 +74,7 @@ export async function useWallet() {
   return {
     account, // 钱包地址
     chainId, // chainid
+    signer, // 签名者
     signature, // 签名
     signStatus, // 签名状态
     balance: ethers.formatUnits(balance) // 以太坊余额
