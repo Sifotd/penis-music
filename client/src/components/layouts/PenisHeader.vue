@@ -31,8 +31,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, getCurrentInstance, computed, reactive } from "vue";
+<script lang="ts" setup>
+import { ref, getCurrentInstance, computed, reactive } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { useUser } from '@/store/user';
 import { useConfigure } from '@/store/configure';
@@ -41,93 +41,71 @@ import PenisHeaderNav from "./PenisHeaderNav.vue";
 import mixin from "@/mixins/mixin";
 import { HEADERNAVLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
 import { HttpManager } from "@/api";
-import { ElMessage } from 'element-plus'
 import { useWallet } from '@/api/wallets';
+import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  components: {
-    PenisIcon,
-    PenisHeaderNav,
-  },
-  setup() {
-    const { proxy } = getCurrentInstance();
-    const userStore = useUser();
-    const configureStore = useConfigure();
-    const { changeIndex, routerManager } = mixin();
+const router = useRouter();
+const { proxy } = getCurrentInstance();
+const userStore = useUser();
+const configureStore = useConfigure();
+const { changeIndex, routerManager } = mixin();
 
-    const musicName = ref(MUSICNAME);
-    const headerNavList = ref(HEADERNAVLIST); // 左侧导航栏
-    const menuList = ref(MENULIST); // 用户下拉菜单项
-    const iconList = reactive({
-      ERJI: Icon.ERJI,
-    });
-    const keywords = ref("");
-    const activeNavName = computed(() => configureStore.activeNavName);
-    const userPic = computed(() => userStore.userPic);
-    const token = computed(() => configureStore.token);
-    const wallet = ref();
-
-    function goPage(path, name) {
-      if (!path && !name) {
-        changeIndex(NavName.Home);
-        routerManager(RouterName.Home, { path: RouterName.Home });
-      } else {
-        changeIndex(name);
-        routerManager(path, { path });
-      }
-    }
-
-    async function walletConnect() {
-      // 获取到权限key
-      wallet.value = await useWallet();
-      console.log('wallet', wallet);
-    }
-
-    function goMenuList(path) {
-      if (path == RouterName.SignOut) {
-        proxy.$store.commit("setToken", false);
-        changeIndex(NavName.Home);
-        routerManager(RouterName.Home, { path: RouterName.Home });
-      } else {
-        routerManager(path, { path });
-      }
-    }
-    function goSearch() {
-      if (keywords.value !== "") {
-        proxy.$store.commit("setSearchWord", keywords.value);
-        routerManager(RouterName.Search, { path: RouterName.Search, query: { keywords: keywords.value } });
-      } else {
-        (proxy as any).$message({
-          message: "搜索内容不能为空",
-          type: "error",
-        });
-      }
-    }
-
-    function jumpToMyList() { 
-      // 跳到我的主页面
-    }
-
-    return {
-      musicName,
-      headerNavList,
-      menuList,
-      iconList,
-      keywords,
-      activeNavName,
-      wallet,
-      walletConnect,
-      jumpToMyList,
-      userPic,
-      token,
-      Search,
-      goPage,
-      goMenuList,
-      goSearch,
-      attachImageUrl: HttpManager.attachImageUrl,
-    };
-  },
+const musicName = ref(MUSICNAME);
+const headerNavList = ref(HEADERNAVLIST); // 左侧导航栏
+const menuList = ref(MENULIST); // 用户下拉菜单项
+const iconList = reactive({
+  ERJI: Icon.ERJI,
 });
+const keywords = ref("");
+const activeNavName = computed(() => configureStore.activeNavName);
+const userPic = computed(() => userStore.userPic);
+const token = computed(() => configureStore.token);
+const wallet = ref();
+
+function goPage(path, name) {
+  if (!path && !name) {
+    changeIndex(NavName.Home);
+    routerManager(RouterName.Home, { path: RouterName.Home });
+  } else {
+    changeIndex(name);
+    routerManager(path, { path });
+  }
+}
+
+async function walletConnect() {
+  // 获取到权限key
+  wallet.value = await useWallet();
+  console.log('wallet', wallet);
+}
+
+function goMenuList(path) {
+  if (path == RouterName.SignOut) {
+    proxy.$store.commit("setToken", false);
+    changeIndex(NavName.Home);
+    routerManager(RouterName.Home, { path: RouterName.Home });
+  } else {
+    routerManager(path, { path });
+  }
+}
+function goSearch() {
+  if (keywords.value !== "") {
+    proxy.$store.commit("setSearchWord", keywords.value);
+    routerManager(RouterName.Search, { path: RouterName.Search, query: { keywords: keywords.value } });
+  } else {
+    (proxy as any).$message({
+      message: "搜索内容不能为空",
+      type: "error",
+    });
+  }
+}
+
+function jumpToMyList() { 
+  // 跳到我的主页面
+  router.push('/myList');
+}
+
+const attachImageUrl = ref(HttpManager.attachImageUrl);
+
 </script>
 
 <style lang="scss" scoped>

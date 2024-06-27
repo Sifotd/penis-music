@@ -1,15 +1,11 @@
 <template>
   <svg class="icon" aria-hidden="true">
-    <use :xlink:href="icon"></use>
+    <use :xlink:href="props.icon"></use>
   </svg>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  props: {
-    icon: String,
-  },
+<script lang="ts" setup>
+const props = defineProps({
+  icon: String,
 });
 </script>

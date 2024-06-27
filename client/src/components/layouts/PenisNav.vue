@@ -1,31 +1,20 @@
 <template>
   <ul class="penis-nav">
-    <li v-for="(item, index) in styleList" :key="index" :class="{ active: item.name == activeName }" @click="handleChangeView(item)">
+    <li v-for="(item, index) in props.styleList" :key="index" :class="{ active: item.name == props.activeName }" @click="handleChangeView(item)">
       {{ item.name }}
     </li>
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance } from "vue";
-
-export default defineComponent({
-  props: {
-    styleList: Array,
-    activeName: String,
-  },
-  emits: ["click"],
-  setup() {
-    const { proxy } = getCurrentInstance();
-
-    function handleChangeView(val) {
-      proxy.$emit("click", val);
-    }
-    return {
-      handleChangeView,
-    };
-  },
-});
+<script lang="ts" setup>
+const props = defineProps({
+  styleList: Array,
+  activeName: String
+})
+const emit = defineEmits(['click'])
+const handleChangeView = (val: any) => {
+  emit("click", val);
+}
 </script>
 
 <style lang="scss" scoped>

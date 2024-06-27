@@ -5,20 +5,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { ref } from 'vue';
 import PenisIcon from "./PenisIcon.vue";
 import { Icon } from "@/enums";
 
-export default defineComponent({
-  components: {
-    PenisIcon,
-  },
-  data() {
-    return {
-      icon: Icon.ERJI,
-    };
-  },
-});
+const icon = ref(Icon.ERJI);
 </script>
 
 <style lang="scss" scoped>

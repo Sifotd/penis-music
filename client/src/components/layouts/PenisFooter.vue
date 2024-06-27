@@ -7,18 +7,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, readonly } from "vue";
-
-export default defineComponent({
-  setup() {
-    const footerList = readonly([
-      "关于 | 帮助 | 条款 | 反馈",
-      "Copyright © 2024 Penis Music",
-    ]);
-
-    return { footerList };
-  },
-});
+import { readonly } from "vue";
+const footerList = readonly([
+  "关于 | 帮助 | 条款 | 反馈",
+  "Copyright © 2024 Penis Music",
+]);
 </script>
 
 <style lang="scss" scoped>

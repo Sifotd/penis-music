@@ -28,8 +28,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, toRefs, computed, reactive } from "vue";
+<script setup lang="ts">
+import { getCurrentInstance, toRefs, computed, reactive } from "vue";
 import { useSong } from '@/store/song'
 import { useUser } from '@/store/user'
 import { MoreFilled, Delete, Download } from "@element-plus/icons-vue";
@@ -38,89 +38,71 @@ import mixin from "@/mixins/mixin";
 import { HttpManager } from "@/api/mock";
 import { Icon } from "@/enums";
 
-export default defineComponent({
-  components: {
-    MoreFilled,
-  },
-  props: {
-    songList: Array,
-    show: {
-      default: false
-    }
-  },
-  emits: ["changeData"],
-  setup(props) {
-    const { getSongTitle, getSingerName, playMusic, checkStatus, downloadMusic } = mixin();
-    const { proxy } = getCurrentInstance();
-    const songStore = useSong();
-    const userStore = useUser();
+const props = defineProps({
+  songList: Array,
+  show: {
+    default: false
+  }
+})
 
-    const { songList } = toRefs(props);
+const emit = defineEmits(['changeData'])
 
-    const iconList = reactive({
-      dislike: Icon.Dislike,
-      like: Icon.Like,
-    });
+const { getSongTitle, getSingerName, playMusic, checkStatus, downloadMusic } = mixin();
+const { proxy } = getCurrentInstance();
+const songStore = useSong();
+const userStore = useUser();
 
-    const songUrl = computed(() => songStore.songUrl);
-    const singerName = computed(() => songStore.singerName);
-    const songTitle = computed(() => songStore.songTitle);
-    const dataList = computed(() => {
-      const list = [];
-      songList.value.forEach((item: any, index) => {
-        item["songName"] = getSongTitle(item.name);
-        item["singerName"] = getSingerName(item.name);
-        item["index"] = index;
-        list.push(item);
-      });
-      return list;
-    });
+const { songList } = toRefs(props);
 
-    function handleClick(row) {
-      playMusic({
-        id: row.id,
-        url: row.url,
-        pic: row.pic,
-        index: row.index,
-        name: row.name,
-        lyric: row.lyric,
-        currentSongList: songList.value,
-      });
-    }
-
-    function handleEdit(row) {
-      console.log("row", row);
-    }
-
-    const userId = computed(() => userStore.userId);
-
-    async function deleteCollection({ id }) {
-      if (!checkStatus()) return;
-
-      const result = (await HttpManager.deleteCollection(userId.value, id)) as ResponseBody;
-      (proxy as any).$message({
-        message: result.message,
-        type: result.type,
-      });
-
-      if (result.data === false) proxy.$emit("changeData", result.data);
-    }
-
-    return {
-      dataList,
-      iconList,
-      Delete,
-      Download,
-      songUrl,
-      singerName,
-      songTitle,
-      handleClick,
-      handleEdit,
-      downloadMusic,
-      deleteCollection,
-    };
-  },
+const iconList = reactive({
+  dislike: Icon.Dislike,
+  like: Icon.Like,
 });
+
+const songUrl = computed(() => songStore.songUrl);
+const singerName = computed(() => songStore.singerName);
+const songTitle = computed(() => songStore.songTitle);
+const dataList = computed(() => {
+  const list = [];
+  songList.value.forEach((item: any, index) => {
+    item["songName"] = getSongTitle(item.name);
+    item["singerName"] = getSingerName(item.name);
+    item["index"] = index;
+    list.push(item);
+  });
+  return list;
+});
+
+function handleClick(row) {
+  playMusic({
+    id: row.id,
+    url: row.url,
+    pic: row.pic,
+    index: row.index,
+    name: row.name,
+    lyric: row.lyric,
+    currentSongList: songList.value,
+  });
+}
+
+function handleEdit(row) {
+  console.log("row", row);
+}
+
+const userId = computed(() => userStore.userId);
+
+async function deleteCollection({ id }) {
+  if (!checkStatus()) return;
+
+  const result = (await HttpManager.deleteCollection(userId.value, id)) as ResponseBody;
+  (proxy as any).$message({
+    message: result.message,
+    type: result.type,
+  });
+
+  if (result.data === false) proxy.$emit("changeData", result.data);
+}
+
 </script>
 
 <style lang="scss" scoped>
