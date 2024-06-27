@@ -771,7 +771,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"NFT.sol": "PenisNFT"
+			"src/contracts/NFT.sol": "PenisNFT"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -881,7 +881,7 @@
 				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
 			]
 		},
-		"NFT.sol": {
+		"src/contracts/NFT.sol": {
 			"keccak256": "0xa19d1b8d180a590f4b26f6574046e78aaff355538ea5e8f6e3ac5e698c5487f3",
 			"license": "MIT",
 			"urls": [

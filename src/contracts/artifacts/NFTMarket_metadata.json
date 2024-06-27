@@ -49,6 +49,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "getAllListedNFTs",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getAllOrderIds",
 				"outputs": [
 					{
@@ -257,9 +270,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"NFTMarket.sol": "NFTMarket"
+			"src/contracts/NFTMarket.sol": "NFTMarket"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -359,12 +372,12 @@
 				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
 			]
 		},
-		"NFTMarket.sol": {
-			"keccak256": "0xcfa4fb6725e4d10131f8633d461a55e0d300782fb10cde76a65987033436ff2a",
+		"src/contracts/NFTMarket.sol": {
+			"keccak256": "0x3ff52ccde0c56dcef257881149f0c21532765d624c0df3a9b60a0e73d7092853",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b5b673f58e21e75a8d0a55f1647e4261532b4b418e0add6f7d4056e38cf9102f",
-				"dweb:/ipfs/QmSLszFn1MTVWYnVAn66ThexiPGjCUKSGqBCnsvGSKWwGp"
+				"bzz-raw://1d081e1b0585addee5ae8744ac665a581e8f58be8542dc673dd5ff22796e0a63",
+				"dweb:/ipfs/QmcQ8eGHBKCPMy7ve3PK49WgKWavXiSmGatzCR2FpXotV5"
 			]
 		}
 	},

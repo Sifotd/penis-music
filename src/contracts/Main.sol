@@ -82,8 +82,12 @@ contract main {
         return penisNFT.ownerOf(tokenId);
     }
 
-    function getAllOrderIds() public view returns(uint[] memory) {
-       return nftMarket.getAllOrderIds();
+    function getAllListedNFTs() public view returns(uint[] memory) {
+       return nftMarket.getAllListedNFTs();
+    }
+
+    function getAllOrderIds() public view returns (uint[] memory) {
+        return nftMarket.getAllOrderIds();
     }
 
     function getAllOrders() public view returns (NFTMarket.Order[] memory) {

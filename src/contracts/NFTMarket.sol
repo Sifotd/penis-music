@@ -117,11 +117,20 @@ contract NFTMarket {
         return totalOrder;
     }
 
-    // 返回所有的OrderId
+    // 返回所有上架的NFT的id
+    function getAllListedNFTs() public view returns (uint[] memory) {
+        uint[] memory orderIds = new uint[](totalOrder);
+        for (uint256 i = 1; i <= totalOrder; i++) {
+            orderIds[i - 1] = allOrder[i].tokenId;
+        }
+        return orderIds;
+    
+    }
+    // 返回所有orderid
     function getAllOrderIds() public view returns (uint[] memory) {
         uint[] memory orderIds = new uint[](totalOrder);
         for (uint256 i = 1; i <= totalOrder; i++) {
-            orderIds[i - 1] = orderData[i].orderId;
+            orderIds[i - 1] = allOrder[i].orderId;
         }
         return orderIds;
     

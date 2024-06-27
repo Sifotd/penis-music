@@ -13,47 +13,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"name": "OwnableInvalidOwner",
-				"type": "error"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "account",
-						"type": "address"
-					}
-				],
-				"name": "OwnableUnauthorizedAccount",
-				"type": "error"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "previousOwner",
-						"type": "address"
-					},
-					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "newOwner",
-						"type": "address"
-					}
-				],
-				"name": "OwnershipTransferred",
-				"type": "event"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "uint256",
 						"name": "orderId",
 						"type": "uint256"
@@ -62,6 +21,67 @@
 				"name": "buyNFT",
 				"outputs": [],
 				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllListedNFTs",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllOrderIds",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllOrders",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "sellAddr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NFTMarket.Order[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -136,6 +156,52 @@
 						"internalType": "uint256[]",
 						"name": "",
 						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "page",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pageSize",
+						"type": "uint256"
+					}
+				],
+				"name": "getOrdersByPage",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "sellAddr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct NFTMarket.Order[]",
+						"name": "",
+						"type": "tuple[]"
 					}
 				],
 				"stateMutability": "view",
@@ -258,48 +324,10 @@
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "currentTokenId",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "owner",
-				"outputs": [
-					{
-						"internalType": "address",
 						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "renounceOwnership",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
 						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "isListed",
-						"type": "bool"
 					}
 				],
-				"name": "setListingStatus",
-				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -329,19 +357,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "newOwner",
-						"type": "address"
-					}
-				],
-				"name": "transferOwnership",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "uint256",
 						"name": "orderId",
 						"type": "uint256"
@@ -354,30 +369,8 @@
 			}
 		],
 		"devdoc": {
-			"errors": {
-				"OwnableInvalidOwner(address)": [
-					{
-						"details": "The owner is not a valid owner account. (eg. `address(0)`)"
-					}
-				],
-				"OwnableUnauthorizedAccount(address)": [
-					{
-						"details": "The caller account is not authorized to perform an operation."
-					}
-				]
-			},
 			"kind": "dev",
-			"methods": {
-				"owner()": {
-					"details": "Returns the address of the current owner."
-				},
-				"renounceOwnership()": {
-					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
-				},
-				"transferOwnership(address)": {
-					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
-				}
-			},
+			"methods": {},
 			"version": 1
 		},
 		"userdoc": {
@@ -388,9 +381,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Main.sol": "main"
+			"src/contracts/Main.sol": "main"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -498,28 +491,28 @@
 				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
 			]
 		},
-		"Main.sol": {
-			"keccak256": "0xbd98c7659af71da2c9ade77ee7c4205f7f2764dbf22bd66e480be5c6b7cfa554",
+		"src/contracts/Main.sol": {
+			"keccak256": "0xd07515dc679e1c366b353963dd8c95e393d347cb423859cbecd7bafe0703b4c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fc75b967bf6ce08c794ea16c7259a999a2defa8cd86bea875e57390762fbe820",
-				"dweb:/ipfs/QmUC8NQ2jzuxQqLCpBKX5sZxFQVWWaidZAeapsKMf8Ntup"
+				"bzz-raw://8173a767ee8a34dd584a02840fe94f9711f60c174907bd57b7fb9f417bf4a188",
+				"dweb:/ipfs/QmTiXxDbjzhu9SgDgVM41pJTAvWMRDKuMH8r1pDwdvvuQi"
 			]
 		},
-		"NFT.sol": {
-			"keccak256": "0x823c6fd8c7cea1ea9ccfddb289df3356c24ac740d6fdf6222f9d5b488fe61180",
+		"src/contracts/NFT.sol": {
+			"keccak256": "0xa19d1b8d180a590f4b26f6574046e78aaff355538ea5e8f6e3ac5e698c5487f3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d282873c537af09ebbd012948046ada8f728b4c75c578c75b9e0c37f99cb7eb7",
-				"dweb:/ipfs/Qmez6WHKjP1L9qca5ZQSQfgTuSQNs52QKXK9kTRLsTn7HU"
+				"bzz-raw://7611749f1c6559ab953dce3259a3fc2671bb88e3717553e3c29ca99e2983af5b",
+				"dweb:/ipfs/QmaHdWXqaNNyWY3T3XWgUphECp3tWjVt7UsCmdxsUbYvX3"
 			]
 		},
-		"NFTMarket.sol": {
-			"keccak256": "0x571bbd57e046f4682369b61bdf615ee61b351e37055776961c8eb46512112ab4",
+		"src/contracts/NFTMarket.sol": {
+			"keccak256": "0x1cddafe057c9e3efe994041c8c369e28c2d58f6dcd26844d3d107b1c7cabf78e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://44bcae4626884301f3ae6c421cd1672ed096e982d907f38230fa0cef4115d58c",
-				"dweb:/ipfs/QmRwpri8iPX1yu2PrJ9cxLxGa5dEs6JvXLswfa612ewxqd"
+				"bzz-raw://1af3dfa0e44672c1b84f9779ade342d498e24feecca57dcd0c4a94a88bb7b06f",
+				"dweb:/ipfs/QmUK6QifMTGAym9U1RAm41xtBJ62LzjNMkuHpxsjNZFZAA"
 			]
 		}
 	},
