@@ -1,4 +1,4 @@
-import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.2.3/ethers.js"; 
+import { ethers } from "ethers";
 
 /*
 import abi 
@@ -12,7 +12,7 @@ const ALCHEMY_GOERLI_URL = 'https://eth-goerli.alchemyapi.io/v2/GlaeWuylnNM3uuOo
 const abiMain = contractMainJson.default.object;
 //const abiNFTMarket = contractNFTMarketJson.default.object;
 
-const MainAddress = "0x1b9e5edc1481164cea3f9fbbc66329e0c73f5377";
+const MainAddress = "0x690b82598466fb73adb7195d3411a49b3039c2ef";
 
 /// wallet 对象 获取 
 //TODO: 此处代码需要重构 此处的Provider要从wallet对象里用getProvider方法的方式获取 。 目前只是用做测试

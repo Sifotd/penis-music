@@ -5,34 +5,45 @@
   </head>
   <body>
     <script type="module">
-        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.2.3/ethers.js"; 
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.1/ethers.js"; 
         const mainJson = await fetch('Main.json')
         .then(response => response.json())  
         .then( async (contractMainJson)=> {
             console.log(contractMainJson); 
             const abiMain = contractMainJson;
             console.log("abiMain",abiMain)
-            const MainAddress = "0x1b9e5edc1481164cea3f9fbbc66329e0c73f5377";
-            if (typeof window.ethereum === "undefined") {
-                alert("please install the metamask wallet!");
+            const MainAddress = "0x171920C420A6e93EB65F37e072B6D8cA3383Aa9e";
+            let signer = null;
+            let provider;
+            if (window.ethereum === null) {
+              console.log("MetaMask not installed; using read-only defaults")
+              provider = ethers.getDefaultProvider()
+            }else {
+              provider = new ethers.BrowserProvider(window.ethereum)
+              signer = await provider.getSigner();
             }
-            console.log("连接钱包")
-            const provider = new ethers.BrowserProvider(window.ethereum);
-            //获取钱包地址
-            const accounts = await provider.send("eth_requestAccounts", []);
+            const accounts = await ethereum.request({ method: "eth_accounts" });
             const account = accounts[0]
             console.log(`钱包地址: ${account}`);
-            const contractMain = new ethers.Contract(MainAddress, abiMain, provider);
-            const TokenId = await contractMain.mint(account,"http://ideaeye.com","http://ideaeye");
-
-            let i = 1;
-            let j = 2;
-            const TokenId = async(i,j) =>{
-                return await contractMain.mint(account,"http://ideaeye.com","http://ideaeye");
-                console.log('debug',TokenId);
+            try{
+              const contractMain = new ethers.Contract(MainAddress, abiMain, signer);
+              alert("1")
+              try{
+                alert("2")
+                const TokenId = async()=>{
+                  return await contractMain.mint(account,"http://ideaeye.com","http://ideaeye");
+                }
+                alert("3")
+                const tokenId = await TokenId()
+                alert(TokenId)
+                console.log('debug',tokenId);
+              }catch (error){
+                console.error(error);
+              }
+            }catch(error){
+              console.error(error);
+            }
         })
-        const a = await TokenId(i,j)
-        console.log("aaa")
     </script>
   </body>
 </html>
