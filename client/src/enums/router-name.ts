@@ -5,7 +5,6 @@ export const enum RouterName {
   Singer = "/singer",
   SingerDetail = "/singer-detail",
   Personal = "/personal",
-  Setting = "/setting",
   PersonalData = "/personal-data",
   SignIn = "/sign-in",
   SignUp = "/sign-up",
@@ -14,5 +13,4 @@ export const enum RouterName {
   Error = "/404",
   SignOut = "0",
   ForgotPassword="/FPassword",
-  loginByemail="/loginByemail",
 }

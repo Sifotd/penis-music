@@ -19,14 +19,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/Home.vue"),
       },
       {
-        path: "/personal",
-        name: "personal",
-        meta: {
-          requireAuth: true,
-        },
-        component: () => import("@/views/personal/Personal.vue"),
-      },
-      {
         path: "/song-sheet",
         name: "song-sheet",
         component: () => import("@/views/song-sheet/SongSheet.vue"),
@@ -57,21 +49,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/search/Search.vue"),
       },
       {
-        path: "/personal-data",
-        name: "personal-data",
-        component: () => import("@/views/setting/PersonalData.vue"),
-      },
-      {
-        path: "/FPassword",
-        name: "FPassword",
-        component: ()=> import("@/views/FPassword.vue"),
-      },
-      {
-        path: "/loginByemail",
-        name: "loginByemail",
-        component: ()=> import("@/views/loginByemail.vue"),
-      },
-      {
         path: "/detail",
         name: "detail",
         component: ()=> import("@/views/Detail.vue"),
@@ -82,27 +59,9 @@ const routes: Array<RouteRecordRaw> = [
         component: ()=> import("@/views/Upload.vue"),
       },
       {
-        path: "/mylist",
-        name: "mylist",
-        component: ()=> import("@/views/MyList.vue"),
-      },
-      {
-        path: "/setting",
-        name: "setting",
-        meta: {
-          requireAuth: true,
-        },
-        component: () => import("@/views/setting/Setting.vue"),
-        children: [
-          {
-            path: "/setting/PersonalData",
-            name: "personalData",
-            meta: {
-              requireAuth: true,
-            },
-            component: () => import("@/views/setting/PersonalData.vue"),
-          }
-        ]
+        path: "/personal",
+        name: "personal",
+        component: ()=> import("@/views/Personal.vue"),
       },
     ],
   },
