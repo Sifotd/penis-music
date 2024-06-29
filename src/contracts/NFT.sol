@@ -26,11 +26,11 @@ contract PenisNFT is ERC721, Ownable {
 
     function mint(
         address to,
-        string memory ipfsDownloadUrl,
-        string memory imageUrl
+        string memory ipfsDownloadUrl
     ) public onlyOwner returns (uint256) {
         uint256 newTokenId = _totalSupply + 1;
         _mint(to, newTokenId);
+        string memory imageUrl = "";
         _tokenData[newTokenId] = NFTData(ipfsDownloadUrl, imageUrl, false);
         _totalSupply += 1;
 
@@ -48,7 +48,9 @@ contract PenisNFT is ERC721, Ownable {
             tokenId <= _totalSupply,
             "ERC721: operator query for nonexistent token"
         );
-        NFTData storage data = _tokenData[tokenId];
+        NFTData memory data = _tokenData[tokenId];
+        string memory tokenurl = tokenURI(tokenId);
+        data.imageUrl = tokenurl;
         return (data.ipfsDownloadUrl, data.imageUrl, data.isListed);
     }
 
@@ -96,5 +98,9 @@ contract PenisNFT is ERC721, Ownable {
             }
         }
         return 0; //返回无效值
+    }
+
+    function _baseURI() internal pure override returns (string memory) {
+        return "https://metadata.froggyfriends.io/frog/";
     }
 }

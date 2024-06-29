@@ -19,10 +19,9 @@ contract main {
 
     function mint(
         address to,
-        string memory ipfsDownloadUrl,
-        string memory imageUrl
+        string memory ipfsDownloadUrl
     ) public returns(uint256) {
-        return penisNFT.mint(to, ipfsDownloadUrl, imageUrl);
+        return penisNFT.mint(to, ipfsDownloadUrl);
     }
 
     // 此功能前端暂不调用与实现
