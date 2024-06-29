@@ -2,7 +2,16 @@
   <div class="flex w-full p-20 justify-center">
     <div class="flex justify-center w-[888px]">
       <div class="p-6">
-        <img class="w-[400px] h-[400px]" src="https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_300x300.jpeg?from=2956013662" alt="">
+        <el-image
+          class="w-[400px] h-[400px]"
+          :src="imageUrl"
+          :zoom-rate="1.2"
+          :max-scale="7"
+          :min-scale="0.2"
+          :preview-src-list="[imageUrl]"
+          :initial-index="4"
+          fit="cover"
+        />
       </div>
       <div class="p-10 grow flex flex-col items-center">
         <el-form v-if="step === 1" :model="form" label-width="auto" label-position="top">
@@ -25,7 +34,7 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button size="large">图片预览</el-button>
+            <el-button @click="preview" size="large">图片预览</el-button>
             <el-button size="large" @click="mint">铸造</el-button>
           </el-form-item>
         </el-form>
@@ -72,6 +81,7 @@ const step = ref(1)
 // const contract = await useContract();
 
 // console.log('contract', contract);
+const imageUrl = ref('https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_300x300.jpeg?from=2956013662')
 
 const form = ref({
   imageUrl: '',
@@ -81,6 +91,10 @@ const form = ref({
 const mint = async () => {
   const contract = await useContract();
   contract.mint(form.musicUrl, form.imageUrl);
+}
+
+const preview = () => {
+  imageUrl.value = form.value.imageUrl;
 }
 
 const value = ref('')
