@@ -1,5 +1,7 @@
 export const enum RouterName {
   Home = "/",
+  Explore = "/explore",
+  Mint = "/mint",
   SongSheet = "/song-sheet",
   SongSheetDetail = "/song-sheet-detail",
   Singer = "/singer",

@@ -48,7 +48,7 @@ const router = useRouter();
 const { proxy } = getCurrentInstance();
 const userStore = useUser();
 const configureStore = useConfigure();
-const { changeIndex, routerManager } = mixin();
+const { changeIndex, routerManager } = mixin(router);
 
 const musicName = ref(MUSICNAME);
 const headerNavList = ref(HEADERNAVLIST); // 左侧导航栏
@@ -62,7 +62,7 @@ const userPic = computed(() => userStore.userPic);
 const token = computed(() => configureStore.token);
 const wallet = ref();
 
-function goPage(path, name) {
+const goPage = (path, name) =>{
   if (!path && !name) {
     changeIndex(NavName.Home);
     routerManager(RouterName.Home, { path: RouterName.Home });

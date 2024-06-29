@@ -1,16 +1,17 @@
 import { getCurrentInstance, computed } from "vue";
 import { useSong} from "@/store/song";
 import { useConfigure} from "@/store/configure";
-import { LocationQueryRaw, useRouter } from "vue-router";
+import { LocationQueryRaw, Router } from "vue-router";
 import { RouterName } from "@/enums";
-import { HttpManager } from "@/api";
-import axios from 'axios'
+import axios from 'axios';
+import { ElMessage } from 'element-plus';
+
 interface routerOptions {
   path?: string;
   query?: LocationQueryRaw;
 }
 
-export default function () {
+export default function (router: Router) {
   const { proxy } = getCurrentInstance();
 
   const songStore = useSong();
@@ -118,17 +119,23 @@ export default function () {
 
   // 导航索引
   function changeIndex(value) {
+    // TODO 探索功能暂未开放
+    if (value === '探索') return;
     configureStore.setActiveNavName(value);
   }
   // 路由管理
   function routerManager(routerName: string | number, options: routerOptions) {
-    const router = useRouter();
     switch (routerName) {
       case RouterName.Search:
         router.push({ path: options.path, query: options.query });
         break;
+      case RouterName.Explore:
+        ElMessage({
+          showClose: true,
+          message: '努力正在探索中...',
+        })
+        break;
       case RouterName.Home:
-      case RouterName.SongSheet:
       case RouterName.SongSheetDetail:
       case RouterName.Singer:
       case RouterName.Personal:

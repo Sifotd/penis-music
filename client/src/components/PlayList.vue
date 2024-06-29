@@ -13,7 +13,7 @@
           <div class="card-name">{{ item.price }}</div>
         </div>
       </li>
-      <li v-if="addNew" @click="jumpToUpload">
+      <li v-if="addNew" @click="jumpToMint">
         <div class="border cursor-pointer m-6 pb-6 rounded-sm border-black-600 text-9xl text-slate-200 w-[300px] h-[300px] flex justify-center items-center">+</div>
       </li>
     </ul>
@@ -53,8 +53,8 @@ const goAblum = (item: any)  => {
   routerManager(path.value, { path: `/${path.value}/${item.id}` });
 }
 
-const jumpToUpload = () => {
-  router.push('/upload');
+const jumpToMint = () => {
+  router.push('/mint');
 }
 
 </script>

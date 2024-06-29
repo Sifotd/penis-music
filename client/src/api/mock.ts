@@ -16,8 +16,6 @@ const HttpManager = {
   updateUserPassword: ({id,username,oldPassword,password}) => post(`user/updatePassword`, {id,username,oldPassword,password}),
   // 返回指定ID的用户
   getUserOfId: (id) => get(`user/detail?id=${id}`),
-  // 更新用户头像
-  uploadUrl: (userId) => `${getBaseURL()}/user/avatar/update?id=${userId}`,
 
   // =======================> 歌单 API 完成
   // 获取全部歌单

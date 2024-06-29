@@ -2,8 +2,8 @@ import { RouterName } from "./router-name";
 
 export const enum NavName {
   Home = "首页",
-  SongSheet = "探索",
-  Singer = "铸造",
+  Explore = "探索",
+  Mint = "铸造",
   Personal = "个人主页",
   SignOut = "退出",
 }
@@ -15,12 +15,12 @@ export const HEADERNAVLIST = [
     path: RouterName.Home,
   },
   {
-    name: NavName.SongSheet,
-    path: RouterName.SongSheet,
+    name: NavName.Explore,
+    path: RouterName.Explore,
   },
   {
-    name: NavName.Singer,
-    path: RouterName.Singer,
+    name: NavName.Mint,
+    path: RouterName.Mint,
   },
 ];
 
