@@ -3,19 +3,17 @@
   <div class="play-list">
     <ul class="play-body mt-8">
       <li class="card-frame" v-for="(item, index) in playList" :key="index">
-        <div class="card" @click="goAblum(item)">
+        <div class="card" @click="playMusic(item)">
           <el-image class="card-img" fit="contain" :src="attachImageUrl(item.pic)" />
-          <div class="mask" @click="goAblum(item)">
+          <div class="mask">
             <penis-icon class="mask-icon" :icon="BOFANG"></penis-icon>
           </div>
         </div>
         <div class="flex justify-between">
-          <div class="card-name">{{ item.name || item.title }}</div>
-          <div class="card-name">{{ item.price }}</div>
+          <div class="card-name">NFTID：{{ item.name || item.title }}</div>
+          <div class="card-name">详情 ></div>
         </div>
-      </li>
-      <li v-if="addNew" @click="jumpToMint">
-        <div class="border cursor-pointer m-6 pb-6 rounded-sm border-black-600 text-9xl text-slate-200 w-[300px] h-[300px] flex justify-center items-center">+</div>
+        <div v-if="item.price">价格：{{ item.price }}</div>
       </li>
     </ul>
   </div>
@@ -28,18 +26,12 @@ import PenisIcon from "@/components/layouts/PenisIcon.vue";
 import mixin from "@/mixins/mixin";
 import { Icon } from "@/enums";
 import { HttpManager } from "@/api";
-import { useRouter } from 'vue-router'
 
 const props = defineProps({
   title: String,
   playList: Array,
-  path: String,
-  addNew: {
-    type: Boolean,
-    default: false
-  }
+  path: String
 })
-const router = useRouter();
 
 const BOFANG = ref(Icon.BOFANG)
 const attachImageUrl = ref(HttpManager.attachImageUrl)
@@ -49,13 +41,14 @@ const { routerManager } = mixin();
 
 const { path } = toRefs(props);
 
-const goAblum = (item: any)  => {
+const goAblum = (item: any) => {
+  console.log('hello')
   proxy.$store.commit("setSongDetails", item);
   routerManager(path.value, { path: `/${path.value}/${item.id}` });
 }
 
-const jumpToMint = () => {
-  router.push('/mint');
+const playMusic = (item) => { 
+  console.log('hi')
 }
 
 </script>
