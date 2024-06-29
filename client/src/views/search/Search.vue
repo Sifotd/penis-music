@@ -5,41 +5,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import PenisNav from "@/components/layouts/PenisNav.vue";
 import SearchSong from "./SearchSong.vue";
 import SearchSongList from "./SearchSongList.vue";
 
-export default defineComponent({
-  components: {
-    PenisNav,
-    SearchSong,
-    SearchSongList,
+const searchNavList = ref([
+  {
+    name: "歌曲",
+    value: "SearchSong",
+    component: SearchSong
   },
-  data() {
-    return {
-      searchNavList: [
-        {
-          name: "歌曲",
-          value: "SearchSong",
-        },
-        {
-          name: "歌单",
-          value: "SearchSongList",
-        },
-      ],
-      activeName: "歌曲",
-      currentView: "SearchSong",
-    };
+  {
+    name: "歌单",
+    value: "SearchSongList",
+    component: SearchSongList
   },
-  methods: {
-    handleChangeView(item) {
-      this.activeName = item.name;
-      this.currentView = item.value;
-    },
-  },
-});
+]);
+const activeName = ref("歌曲");
+const currentView = ref(SearchSong)
+
+const handleChangeView = (item: any) => {
+  activeName.value = item.name;
+  currentView.value = item.component;
+}
 </script>
 
 <style lang="scss" scoped>
