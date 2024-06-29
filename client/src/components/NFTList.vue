@@ -25,11 +25,15 @@ import { ref } from "vue";
 import PenisIcon from "@/components/layouts/PenisIcon.vue";
 import { Icon } from "@/enums";
 import { useRouter } from "vue-router";
+import { useSong } from "@/store/song";
 const props = defineProps({
   title: String,
   playList: Array,
   path: String
 })
+
+const songStore = useSong();
+console.log('songStore', songStore);
 
 const BOFANG = ref(Icon.BOFANG)
 
@@ -47,8 +51,18 @@ const jumpToDetail = (item) => {
   }
 }
 
-const playMusic = () => {
-  console.log('play music')
+const playMusic = (item) => {
+  songStore.playMusic({
+    id: item.id,
+    url: item.musicUrl,
+    pic: item.imageUrl,
+    index: 0,
+    songTitle: 'test',
+    singerName: item.saler,
+    lyric: 'dd',
+    currentSongList: []
+  });
+  console.log('play music', item.musicUrl);
 }
 
 </script>

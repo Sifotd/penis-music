@@ -6,7 +6,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import NFTList from "@/components/NFTList.vue";
-import { HttpManager } from "@/api/mock";
 import { useContract } from "@/api/contract";
 import { useConfigure } from "@/store/configure";
 import { ElMessage } from 'element-plus';

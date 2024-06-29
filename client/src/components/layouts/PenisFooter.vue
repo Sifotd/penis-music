@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { readonly } from "vue";
 const footerList = readonly([
   "关于 | 帮助 | 条款 | 反馈",

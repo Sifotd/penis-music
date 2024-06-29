@@ -38,7 +38,7 @@ if (audioDom) {
 }
 
 
-const songUrl = computed(() => 'music.mp3'); // 音乐链接
+const songUrl = computed(() => songStore.songUrl); // 音乐链接
 const isPlay = computed(() => songStore.isPlay); // 播放状态
 const volume = computed(() => songStore.volume); // 音量
 const changeTime = computed(() => songStore.changeTime); // 指定播放时刻
