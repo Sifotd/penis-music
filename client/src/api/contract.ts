@@ -18,8 +18,18 @@ async function registerContract() {
   }
 
   const getAllOrders = async () => {
-    const result = await contractMain.getAllOrders();
-    console.log('allOrders', result);
+    const orderList = await contractMain.getAllOrders();
+    return Promise.all(orderList.map(async (orderData: any) => {
+      const tokenData = await getTokenData(orderData[1]);
+      return {
+        id: tokenData.id,
+        orderId: orderData[0],
+        saler: orderData[2],
+        price: Number(orderData[3]) / (10 ** 18),
+        musicUrl: tokenData.musicUrl,
+        imageUrl: tokenData.imageUrl
+      }
+    }))
   }
 
   const getNft = async (address: string) => { 
@@ -71,9 +81,19 @@ async function registerContract() {
     }
   }
 
+  const getAllListedNFTs = async () => {
+    const nftList = await contractMain.getAllListedNFTs();
+    console.log('allListedNFTs', result);
+  }
+
+  const buyNFT = async (orderId: number) => {
+    return await contractMain.buyNFT(orderId);
+  }
+
   return {
     mint,
     getAllOrders,
+    getAllListedNFTs,
     getNft,
     getTokenData,
     getOrderData,
@@ -81,7 +101,8 @@ async function registerContract() {
     getNFTowner,
     getUserOrders,
     listNFT,
-    unlistNFT
+    unlistNFT,
+    buyNFT
   }
 }
 
