@@ -51,7 +51,7 @@ const getSaler = (saler: string) => {
 
 const buy = async () => { 
   const contract = await useContract();
-  await contract.buyNFT(nft.value.orderId);
+  await contract.buyNFT(nft.value);
   router.push('/');
 }
 </script>

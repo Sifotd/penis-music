@@ -86,8 +86,10 @@ async function registerContract() {
     console.log('allListedNFTs', result);
   }
 
-  const buyNFT = async (orderId: number) => {
-    return await contractMain.buyNFT(orderId);
+  const buyNFT = async (orderData: any) => {
+    return await contractMain.buyNFT(orderData.orderId, {
+      value: BigInt(orderData.price * 10 ** 18)
+    });
   }
 
   return {
