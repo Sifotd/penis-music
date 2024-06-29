@@ -1,0 +1,18 @@
+{
+  "audioType": [
+    "audio/wave",
+    "audio/wav",
+    "audio/x-wav",
+    "audio/x-pn-wav",
+    "audio/ogg",
+    "audio/mp4",
+    "audio/mpeg",
+    "audio/flac",
+    "audio/aac",
+    "audio/mp3",
+    "audio/3gpp",
+    "audio/3gpp2",
+    "audio/3gp2",
+    "audio/webm"
+  ]
+}

@@ -8,27 +8,19 @@
           :zoom-rate="1.2"
           :max-scale="7"
           :min-scale="0.2"
-          :preview-src-list="[imageUrl]"
           :initial-index="4"
           fit="cover"
         />
       </div>
       <div class="p-10 flex-grow flex-col items-center">
-        <el-form v-if="step === 1" :model="form" label-position="top">
+        <el-form :model="form" label-position="top">
           <el-form-item label="请选择需要上传的音乐" class="mb-6">
-            <!-- <el-input
-              v-model="form.imageUrl"
-              style="width: 240px"
-              :rows="2"
-              type="textarea"
-              placeholder="请输入图片URL"
-            /> -->
             <el-upload
               class="w-[360px]"
               drag
+              action="https://api.pinata.cloud/pinning/pinFileToIPFS"
+              :http-request="uploadImage"
               :before-upload="beforeUpload"
-              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-              multiple
             >
               <el-icon class="el-icon--upload"><upload-filled /></el-icon>
               <div class="el-upload__text">
@@ -63,19 +55,23 @@ import { UploadFilled } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { useContract } from '@/api/contract';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { HttpManager } from "@/api";
+import Config from '@/config';
+import axios from 'axios';
+import { useConfigure } from '../store/configure';
 
-const step = ref(1)
-const disabled = ref(false)
+const attachImageUrl = HttpManager.attachImageUrl;
+const disabled = ref(true)
 const router = useRouter();
-// const contract = await useContract();
 
-// console.log('contract', contract);
-const imageUrl = ref('https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_300x300.jpeg?from=2956013662')
-
+const configureStore = useConfigure();
+const imageUrl = ref(attachImageUrl('/bg1.png'))
+const musicUrl = ref('')
 const mint = async () => {
+  
   // TODO 铸造 NFT
   const contract = await useContract();
-  const result = await contract.mint('test url');
+  await contract.mint(musicUrl.value);
 
    ElMessageBox.confirm(
     '是否跳转到订单页面？',
@@ -96,7 +92,8 @@ const mint = async () => {
 }
 
 const validateMusic = (file) => {
-  const isMusic = file.type === 'audio/mp3' || file.type === 'audio/wav';
+  console.log('file', file, Config)
+  const isMusic = Config.audioType.includes(file.type);
   if (!isMusic) {
     ElMessage({
       type: 'error',
@@ -111,12 +108,32 @@ const beforeUpload = (rawFile) => {
   return validateMusic(rawFile);
 }
 
-const value = ref('')
+const uploadImage = async (option) => {
+  const formData = new FormData();
+  formData.append('file', option.file);
 
-const options = ref([
-  {
-    value: 'ETH',
-    label: 'ETH',
+  const pinataMetadata = JSON.stringify({
+    name: 'music file',
+  });
+  formData.append('pinataMetadata', pinataMetadata);
+
+  const pinataOptions = JSON.stringify({
+    cidVersion: 0,
+  })
+  formData.append('pinataOptions', pinataOptions);
+
+  try {
+    const res = await axios.post(option.action, formData, {
+      maxBodyLength: "Infinity",
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        'Authorization': `Bearer ${configureStore.jwt}`
+      }
+    })
+    musicUrl.value = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+    disabled.value = false;
+  } catch (error) {
+    option.onError(error)
   }
-])
+}
 </script>
