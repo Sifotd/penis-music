@@ -16,8 +16,8 @@ export async function useContract() {
   const contractMain = new ethers.Contract(MainAddress, MainConfig, signer);
   console.log('contractMain', contractMain);
 
-  const mint = async (ipfsDownloadUrl: string, imageUrl: string) => {
-    const result = await contractMain.mint(account, ipfsDownloadUrl, imageUrl);
+  const mint = async (ipfsDownloadUrl: string) => {
+    const result = await contractMain.mint(account, ipfsDownloadUrl);
     console.log('result', result);
   }
 

@@ -12,8 +12,8 @@
          <el-image class="song-bar-img" fit="contain"/>
       </div>
         <!--播放开始结束时间-->
-        <div v-if="songId">
-          <div class="song-info">{{ this.songTitle }} - {{ this.singerName }}</div>
+        <div v-if="songStore.songId">
+          <div class="song-info">{{ songStore.songTitle }} - {{ songStore.singerName }}</div>
           <div class="time-info">{{ startTime }} / {{ endTime }}</div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <!--上一首-->
         <penis-icon class="penis-play-show" :icon="iconList.SHANGYISHOU" @click="prev"></penis-icon>
         <!--播放-->
-        <penis-icon :icon="playBtnIcon" @click="togglePlay"></penis-icon>
+        <penis-icon :icon="songStore.playBtnIcon" @click="togglePlay"></penis-icon>
         <!--下一首-->
         <penis-icon class="penis-play-show" :icon="iconList.XIAYISHOU" @click="next"></penis-icon>
         <!--音量-->
@@ -51,8 +51,8 @@
             :icon="iconList.download"
             @click="
             downloadMusic({
-              songUrl,
-              songName: singerName + '-' + songTitle,
+              songUrl: songStore.songUrl,
+              songName: songStroe.singerName + '-' + songStore.songTitle,
             })
           "
         ></penis-icon>
@@ -63,9 +63,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import {computed, defineComponent, getCurrentInstance, onMounted, ref, watch} from "vue";
-import { mapState } from 'pinia'
+<script setup lang="ts">
+import {computed, getCurrentInstance, onMounted, ref, watch} from "vue";
 import mixin from "@/mixins/mixin";
 import PenisIcon from "./PenisIcon.vue";
 import {HttpManager} from "@/api";
@@ -74,206 +73,164 @@ import {Icon, RouterName} from "@/enums";
 import { useUser } from '@/store/user'
 import { useSong } from '@/store/song'
 import { useConfigure } from '@/store/configure'
+import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  components: {
-    PenisIcon,
-  },
-  setup() {
-    const {proxy} = getCurrentInstance();
-    const userStore = useUser();
-    const songStore = useSong();
-    const configureStore = useConfigure();
-    const {routerManager, playMusic, checkStatus, downloadMusic} = mixin();
+const { proxy } = getCurrentInstance();
+const router = useRouter();
+const userStore = useUser();
+const songStore = useSong();
+const configureStore = useConfigure();
+const {routerManager, playMusic, checkStatus, downloadMusic} = mixin(router);
 
-    const isCollection = ref(false); // 是否收藏
+const isCollection = ref(false); // 是否收藏
 
-    const userIdVO = computed(() => userStore.userId);
-    const songIdVO = computed(() => songStore.songId);
-    const token = computed(() => configureStore.token);
+const userIdVO = computed(() => userStore.userId);
+const songIdVO = computed(() => songStore.songId);
+const token = computed(() => configureStore.token);
 
-    watch(songIdVO, () => {
-      initCollection();
-    });
-    watch(token, (value) => {
-      if (!value) isCollection.value = false;
-    });
-
-    async function initCollection() {
-      if (!checkStatus(false)) return;
-
-      const userId = userIdVO.value;
-      const type = '0';
-      const songId = songIdVO.value;
-      isCollection.value = ((await HttpManager.isCollection({userId, type, songId})) as ResponseBody).data;
-    }
-
-    async function changeCollection() {
-      if (!checkStatus()) return;
-
-      const userId = userIdVO.value;
-      const type = '0'; //这里要看看 不能直接写死
-      const songId = songIdVO.value;
-
-      const result = isCollection.value
-          ? ((await HttpManager.deleteCollection(userIdVO.value, songIdVO.value)) as ResponseBody)
-          : ((await HttpManager.setCollection({userId, type, songId})) as ResponseBody);
-      (proxy as any).$message({
-        message: result.message,
-        type: result.type,
-      });
-
-      if (result.data == true || result.data == false) isCollection.value = result.data;
-    }
-
-    onMounted(() => {
-      if (songIdVO.value) initCollection();
-    });
-
-    return {
-      isCollection,
-      playMusic,
-      routerManager,
-      checkStatus,
-      attachImageUrl: HttpManager.attachImageUrl,
-      changeCollection,
-      downloadMusic
-    };
-  },
-  data() {
-    return {
-      startTime: "00:00",
-      endTime: "00:00",
-      nowTime: 0, // 进度条的位置
-      toggle: true,
-      volume: 50,
-      playState: Icon.XUNHUAN,
-      playStateList: [Icon.XUNHUAN, Icon.LUANXU],
-      playStateIndex: 0,
-      iconList: {
-        download: Icon.XIAZAI,
-        ZHEDIE: Icon.ZHEDIE,
-        SHANGYISHOU: Icon.SHANGYISHOU,
-        XIAYISHOU: Icon.XIAYISHOU,
-        YINLIANG: Icon.YINLIANG1,
-        JINGYIN: Icon.JINGYIN,
-        LIEBIAO: Icon.LIEBIAO,
-        dislike: Icon.Dislike,
-        like: Icon.Like,
-      },
-    };
-  },
-  computed: {
-    ...mapState(useUser, [
-      "userId"
-    ]),
-    ...mapState(useConfigure, [
-      "showAside" // 是否显示侧边栏
-    ]),
-    ...mapState(useSong, [
-      "isPlay", // 播放状态
-      "playBtnIcon", // 播放状态的图标
-      "songId", // 音乐id
-      "songUrl", // 音乐地址
-      "songTitle", // 歌名
-      "singerName", // 歌手名
-      "songPic", // 歌曲图片
-      "curTime", // 当前音乐的播放位置
-      "duration", // 音乐时长ds
-      "currentPlayList",
-      "currentPlayIndex", // 当前歌曲在歌曲列表的位置
-      "autoNext", // 用于触发自动播放下一首
-    ]),
-  },
-  watch: {
-    // 切换播放状态的图标
-    isPlay(value) {
-      songStore.setPlayBtnIcon(value ? Icon.ZANTING : Icon.BOFANG)
-    },
-    volume() {
-      songStore.setVolume(this.volume / 100)
-    },
-    // 播放时间的开始和结束
-    curTime() {
-      this.startTime = formatSeconds(this.curTime);
-      this.endTime = formatSeconds(this.duration);
-      // 移动进度条
-      this.nowTime = (this.curTime / this.duration) * 100;
-    },
-    // 自动播放下一首
-    autoNext() {
-      this.next();
-    },
-  },
-  methods: {
-    changeAside() {
-      configureStore.setShowAside(!this.showAside)
-    },
-    // 控制音乐播放 / 暂停
-    togglePlay() {
-      songStore.setIsPlay(this.isPlay ? false : true)
-    },
-    changeTime() {
-      songStore.setChangeTime(this.duration * (this.nowTime * 0.01))
-    },
-    changePlayState() {
-      this.playStateIndex = this.playStateIndex >= this.playStateList.length - 1 ? 0 : ++this.playStateIndex;
-      this.playState = this.playStateList[this.playStateIndex];
-    },
-    // 上一首
-    prev() {
-      if (this.playState === Icon.LUANXU) {
-        let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
-        playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
-        songStore.setCurrentPlayIndex(playIndex)
-        this.toPlay(this.currentPlayList[playIndex].url);
-      } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
-        if (this.currentPlayIndex > 0) {
-          songStore.setCurrentPlayIndex(this.currentPlayIndex - 1)
-          this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
-        } else {
-          songStore.setCurrentPlayIndex(this.currentPlayList.length - 1)
-          this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
-        }
-      }
-    },
-    // 下一首
-    next() {
-      if (this.playState === Icon.LUANXU) {
-        let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
-        playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
-        songStore.setCurrentPlayIndex(playIndex)
-        this.toPlay(this.currentPlayList[playIndex].url);
-      } else if (this.currentPlayIndex !== -1 && this.currentPlayList.length > 1) {
-        if (this.currentPlayIndex < this.currentPlayList.length - 1) {
-          songStore.setCurrentPlayIndex(this.currentPlayIndex + 1)
-          this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
-        } else {
-          songStore.setCurrentPlayIndex(0)
-          this.toPlay(this.currentPlayList[0].url);
-        }
-      }
-    },
-    // 选中播放
-    toPlay(url) {
-      if (url && url !== this.songUrl) {
-        const song = this.currentPlayList[this.currentPlayIndex];
-        this.playMusic({
-          id: song.id,
-          url,
-          pic: song.pic,
-          index: this.currentPlayIndex,
-          name: song.name,
-          lyric: song.lyric,
-          currentSongList: this.currentPlayList,
-        });
-      }
-    },
-    goPlayerPage() {
-      this.routerManager(RouterName.Lyric, {path: `${RouterName.Lyric}/${this.songId}`});
-    },
-  },
+watch(songIdVO, () => {
+  initCollection();
 });
+watch(token, (value?: string) => {
+  if (!value) isCollection.value = false;
+});
+
+async function initCollection() {
+  if (!checkStatus(false)) return;
+
+  const userId = userIdVO.value;
+  const type = '0';
+  const songId = songIdVO.value;
+  isCollection.value = ((await HttpManager.isCollection({userId, type, songId})) as ResponseBody).data;
+}
+
+async function changeCollection() {
+  if (!checkStatus()) return;
+
+  const userId = userIdVO.value;
+  const type = '0'; //这里要看看 不能直接写死
+  const songId = songIdVO.value;
+
+  const result = isCollection.value
+      ? ((await HttpManager.deleteCollection(userIdVO.value, songIdVO.value)) as ResponseBody)
+      : ((await HttpManager.setCollection({userId, type, songId})) as ResponseBody);
+  (proxy as any).$message({
+    message: result.message,
+    type: result.type,
+  });
+
+  if (result.data == true || result.data == false) isCollection.value = result.data;
+}
+
+onMounted(() => {
+  if (songIdVO.value) initCollection();
+});
+
+const startTime = ref("00:00");
+const endTime = ref("00:00");
+const nowTime = ref(0); // 进度条的位)
+const toggle = ref(true);
+const volume = ref(50);
+const playState = ref(Icon.XUNHUAN);
+const playStateList = ref([Icon.XUNHUAN, Icon.LUANXU]);
+const playStateIndex = ref(0);
+
+const iconList = ref({
+  download: Icon.XIAZAI,
+  ZHEDIE: Icon.ZHEDIE,
+  SHANGYISHOU: Icon.SHANGYISHOU,
+  XIAYISHOU: Icon.XIAYISHOU,
+  YINLIANG: Icon.YINLIANG1,
+  JINGYIN: Icon.JINGYIN,
+  LIEBIAO: Icon.LIEBIAO,
+  dislike: Icon.Dislike,
+  like: Icon.Like,
+});
+
+const changeAside = () => {
+  configureStore.setShowAside(!configureStore.showAside)
+}
+// 控制音乐播放 / 暂停
+const togglePlay = () => {
+  songStore.setIsPlay(!songStore.isPlay)
+}
+
+const changeTime = () => {
+  songStore.setChangeTime(songStore.duration * (nowTime.value * 0.01))
+}
+
+watch(() => songStore.isPlay, (value: boolean) => {
+  songStore.setPlayBtnIcon(value ? Icon.ZANTING : Icon.BOFANG)
+})
+watch(volume, () => {
+  songStore.setVolume(volume.value / 100)
+})
+watch(() => songStore.curTime, () => {
+  startTime.value = formatSeconds(songStore.curTime);
+  endTime.value = formatSeconds(songStore.duration);
+  // 移动进度条
+  nowTime.value = (songStore.curTime / songStore.duration) * 100;
+})
+const changePlayState = () => {
+  playStateIndex.value = playStateIndex.value >= playStateList.value.length - 1 ? 0 : ++playStateIndex.value;
+  playState.value = playStateList.value[playStateIndex.value];
+}
+// 上一首
+const prev = () => {
+  if (playState.value === Icon.LUANXU) {
+    let playIndex = Math.floor(Math.random() * songStore.currentPlayList.length);
+    playIndex = playIndex === songStore.currentPlayIndex ? playIndex + 1 : playIndex;
+    songStore.setCurrentPlayIndex(playIndex)
+    toPlay(songStore.currentPlayList[playIndex].url);
+  } else if (songStore.currentPlayIndex !== -1 && songStore.currentPlayList.length > 1) {
+    if (songStore.currentPlayIndex > 0) {
+      songStore.setCurrentPlayIndex(songStore.currentPlayIndex - 1)
+      toPlay(songStore.currentPlayList[songStore.currentPlayIndex].url);
+    } else {
+      songStore.setCurrentPlayIndex(songStore.currentPlayList.length - 1)
+      toPlay(songStore.currentPlayList[songStore.currentPlayIndex].url);
+    }
+  }
+}
+// 下一首
+const next = () => {
+  if (playState.value === Icon.LUANXU) {
+    let playIndex = Math.floor(Math.random() * songStore.currentPlayList.length);
+    playIndex = playIndex === songStore.currentPlayIndex ? playIndex + 1 : playIndex;
+    songStore.setCurrentPlayIndex(playIndex)
+    toPlay(songStore.currentPlayList[playIndex].url);
+  } else if (songStore.currentPlayIndex !== -1 && songStore.currentPlayList.length > 1) {
+    if (songStore.currentPlayIndex < songStore.currentPlayList.length - 1) {
+      songStore.setCurrentPlayIndex(songStore.currentPlayIndex + 1)
+      toPlay(songStore.currentPlayList[songStore.currentPlayIndex].url);
+    } else {
+      songStore.setCurrentPlayIndex(0)
+      toPlay(songStore.currentPlayList[0].url);
+    }
+  }
+}
+// 选中播放
+const toPlay = (url: string) => {
+  if (url && url !== songStore.songUrl) {
+    const song = songStore.currentPlayList[songStore.currentPlayIndex];
+    playMusic({
+      id: song.id,
+      url,
+      pic: song.pic,
+      index: songStore.currentPlayIndex,
+      name: song.name,
+      lyric: song.lyric,
+      currentSongList: songStore.currentPlayList,
+    });
+  }
+}
+const goPlayerPage = () => {
+  routerManager(RouterName.Lyric, {path: `${RouterName.Lyric}/${songStore.songId}`});
+}
+
+watch(() => songStore.autoNext, () => { 
+  next();
+})
 </script>
 
 <style lang="scss" scoped>
