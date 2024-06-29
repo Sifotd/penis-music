@@ -4,29 +4,26 @@
     <ul class="play-body mt-8">
       <li class="card-frame" v-for="(item, index) in playList" :key="index">
         <div class="card" @click="playMusic(item)">
-          <el-image class="card-img" fit="contain" :src="attachImageUrl(item.pic)" />
+          <el-image class="card-img" fit="contain" :src="item.imageUrl" />
           <div class="mask">
             <penis-icon class="mask-icon" :icon="BOFANG"></penis-icon>
           </div>
         </div>
+        <div class="mt-1 text-sm">NFTID：{{ item.tokenId }}</div>
         <div class="flex justify-between">
-          <div class="card-name">NFTID：{{ item.name || item.title }}</div>
-          <div class="card-name">详情 ></div>
+          <div class="mt-1 text-xs">价格：{{ item.price || '未上架'}}</div>
+          <div class="mt-1 cursor-pointer text-blue-300 text-xs" @click="jumpToDetail(item.id)">详情 ></div>
         </div>
-        <div v-if="item.price">价格：{{ item.price }}</div>
       </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, toRefs, ref } from "vue";
-
+import { ref } from "vue";
 import PenisIcon from "@/components/layouts/PenisIcon.vue";
-import mixin from "@/mixins/mixin";
 import { Icon } from "@/enums";
-import { HttpManager } from "@/api";
-
+import { useRouter } from "vue-router";
 const props = defineProps({
   title: String,
   playList: Array,
@@ -34,21 +31,15 @@ const props = defineProps({
 })
 
 const BOFANG = ref(Icon.BOFANG)
-const attachImageUrl = ref(HttpManager.attachImageUrl)
 
-const { proxy } = getCurrentInstance();
-const { routerManager } = mixin();
+const router = useRouter();
 
-const { path } = toRefs(props);
-
-const goAblum = (item: any) => {
-  console.log('hello')
-  proxy.$store.commit("setSongDetails", item);
-  routerManager(path.value, { path: `/${path.value}/${item.id}` });
+const jumpToDetail = (id: String) => {
+  router.push(`/detail?id=${id.toString()}`)
 }
 
-const playMusic = (item) => { 
-  console.log('hi')
+const playMusic = () => {
+  console.log('play music')
 }
 
 </script>

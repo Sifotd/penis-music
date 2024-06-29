@@ -16,6 +16,9 @@ import PlayList from "@/components/PlayList.vue";
 import {  NavName } from "@/enums";
 import { HttpManager } from "@/api/mock";
 import mixin from "@/mixins/mixin";
+import { useConfigure } from '../store/configure';
+
+const configureStore = useConfigure();
 
 const songList = ref([]); // 歌单列表
 const singerList = ref([]); // 歌手列表
@@ -35,8 +38,10 @@ try {
     singerList.value = (res as ResponseBody).data.sort().slice(0, 10);
   });
 
-  onMounted(() => {
+  onMounted(async () => {
     changeIndex(NavName.Home);
+    console.log('configureStore.contractMain', configureStore.contractMain);
+    const orders = await configureStore.contractMain.getAllOrders();
   });
 } catch (error) {
   console.error(error);

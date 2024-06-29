@@ -18,7 +18,7 @@ export const useSong = defineStore('song', {
       duration: 0, // 音乐时长
       curTime: 0, // 当前音乐的播放位置
       changeTime: 0, // 指定播放时刻
-      autoNext: true, // 用于触发自动播放下一首
+      autoNext: false, // 用于触发自动播放下一首
 
       /** 音乐列表信息 */
       currentPlayList: [], // 当前播放列表

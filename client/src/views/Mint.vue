@@ -106,8 +106,8 @@ const imageUrl = ref('https://p3-pc.douyinpic.com/img/310ed00020f28640b2d8c~c5_3
 
 const mint = async () => {
   // TODO 铸造 NFT
-  // const contract = await useContract();
-  // contract.mint(form.musicUrl);
+  const contract = await useContract();
+  const result = await contract.mint('test url');
 
    ElMessageBox.confirm(
     '是否跳转到订单页面？',
@@ -119,7 +119,7 @@ const mint = async () => {
     }
   )
     .then(() => {
-      router.push('/personal')
+      router.push('/singer')
     })
     .catch(() => {
       // TODO 重制当前页面状态

@@ -4,17 +4,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-
+import { ref, onMounted } from "vue";
 import NFTList from "@/components/NFTList.vue";
 import { HttpManager } from "@/api/mock";
+import { useContract } from "@/api/contract";
+import { useConfigure } from "@/store/configure";
+import { ElMessage } from 'element-plus';
 
 const putOnList = ref([]); // 已上架
 const unPutOnList = ref([]); // 未上架
+const configure = useConfigure();
+
+const loadList = async () => {
+  const contract = await useContract();
+  const nftList = await contract.getNft(configure.wallet.account);
+  unPutOnList.value = await Promise.all(nftList.map(async (tokenId: BigInt) => {
+    const data = await contract.getTokenData(tokenId);
+    return await contract.getTokenData(tokenId)
+  }))
+}
+
+onMounted(async () => {
+  if (!configure.wallet) {
+    ElMessage({
+      showClose: true,
+      message: '请先连接钱包'
+    })
+    return;
+  }
+  await loadList();
+});
+
 try {
   HttpManager.getSongList().then((res) => {
     putOnList.value = (res as ResponseBody).data.sort().slice(0, 10);
-    unPutOnList.value = (res as ResponseBody).data.sort().slice(0, 10);
   });
 } catch (error) {
   console.error(error);

@@ -101,7 +101,7 @@ function goSearch() {
 
 function jumpToMyList() { 
   // 跳到我的主页面
-  router.push('/myList');
+  router.push('/singer');
 }
 
 const attachImageUrl = ref(HttpManager.attachImageUrl);

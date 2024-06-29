@@ -27,14 +27,14 @@ const audioDom = document.querySelector('audio');
 if (audioDom) {
   // 设置为静音并尝试自动播放
   audioDom.muted = true;
-  audioDom.play()
-    .then(() => {
-      // 自动播放成功
-    })
-    .catch(error => {
-      // 自动播放失败，可能是因为没有用户交互
-      console.error('自动播放失败，需要用户交互。', error);
-    });
+  // audioDom.play()
+  //   .then(() => {
+  //     // 自动播放成功
+  //   })
+  //   .catch(error => {
+  //     // 自动播放失败，可能是因为没有用户交互
+  //     console.error('自动播放失败，需要用户交互。', error);
+  //   });
 }
 
 

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-
+import { useConfigure } from "@/store/configure";
 const users: any = {}
 
 
@@ -52,14 +52,10 @@ function verify(address, signature) {
   return signValid
 }
 
-export async function useWallet() {
-  if (!window?.ethereum) {
-    alert("please install the metamask wallet!");
-    return;
-  }
-  console.log("连接钱包")
+async function connectWallet() {
   // 获得provider
   const provider = new ethers.BrowserProvider(window?.ethereum)
+
   // 读取钱包地址
   const accounts = await provider.send("eth_requestAccounts", []);
   const account = accounts[0]
@@ -69,15 +65,34 @@ export async function useWallet() {
   const signer = await provider.getSigner()
   const nonce = auth(account);
   const signature = await signer.signMessage(nonce.toString())
-  const balance = await provider.getBalance(signer.getAddress());
   const signStatus = verify(account, signature);
+  const balance = async () => {
+    const data = await provider.getBalance(signer.getAddress());
+    return ethers.formatUnits(data);
+  };
   return {
+    provider,
+    balance,
     account, // 钱包地址
     chainId, // chainid
     signer, // 签名者
     signature, // 签名
     signStatus, // 签名状态
-    balance: ethers.formatUnits(balance) // 以太坊余额
   }
+
+}
+
+export async function useWallet() {
+  if (!window?.ethereum) {
+    alert("please install the metamask wallet!");
+    return;
+  }
+  const configureStore = useConfigure();
+  console.log("连接钱包")
+  if (configureStore.wallet) return configureStore.wallet;
+
+  const wallet = await connectWallet();
+  configureStore.setWallet(wallet);
+  return wallet;
 }
 

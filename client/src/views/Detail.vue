@@ -15,4 +15,17 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { useRoute } from 'vue-router';
+import { useContract } from "@/api/contract";
+
+const route = useRoute();
+
+onMounted(async () => {
+  const contract = await useContract();
+  const tokenId = route.query.id;
+  contract.getTokenData(tokenId).then((data) => {
+    console.log(data);
+  })
+})
 </script>

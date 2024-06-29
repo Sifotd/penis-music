@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+
 export const useConfigure = defineStore('configure', {
   state: () => {
     return {
@@ -6,6 +7,8 @@ export const useConfigure = defineStore('configure', {
       showAside: false, // 是否显示侧边栏
       searchWord: "", // 搜索关键词
       activeNavName: "", // 导航栏名称
+      contractMain: null, // 合约
+      wallet: null // 钱包
     }
   },
   actions: {
@@ -21,5 +24,11 @@ export const useConfigure = defineStore('configure', {
     setSearchWord(searchWord) {
       this.searchWord = searchWord;
     },
+    setContractMain(contractMain) {
+      this.contractMain = contractMain;
+    },
+    setWallet(wallet) {
+      this.wallet = wallet;
+    }
   }
 })
