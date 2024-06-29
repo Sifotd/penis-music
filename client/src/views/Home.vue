@@ -23,7 +23,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const songList = ref([]); // 歌单列表
-const singerList = ref([]); // 歌手列表
 const swiperList = ref([]);// 轮播图 每次都在进行查询
 
 const jumpToDetail = (item: any) => {

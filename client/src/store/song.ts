@@ -75,16 +75,6 @@ export const useSong = defineStore('song', {
     },
     setCurrentPlayIndex(currentPlayIndex) {
       this.currentPlayIndex = currentPlayIndex;
-    },
-    playMusic: ({ id, url, pic, index, songTitle, singerName, lyric, currentSongList }) => {
-      this.setSongId(id);
-      this.setSongUrl(url);
-      this.setSongPic(pic);
-      this.setCurrentPlayIndex(index);
-      this.setSongTitle(songTitle);
-      this.setSingerName(singerName);
-      this.setLyric(lyric);
-      this.setCurrentPlayList(currentSongList);
     }
   }
 })

@@ -21,10 +21,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useContract } from "@/api/contract";
-import type { FormInstance } from 'element-plus'
 
 const route = useRoute();
 const nft = ref({

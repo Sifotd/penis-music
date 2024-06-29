@@ -52,16 +52,17 @@ const jumpToDetail = (item) => {
 }
 
 const playMusic = (item) => {
-  songStore.playMusic({
-    id: item.id,
-    url: item.musicUrl,
-    pic: item.imageUrl,
-    index: 0,
-    songTitle: 'test',
-    singerName: item.saler,
-    lyric: 'dd',
-    currentSongList: []
-  });
+  songStore.setSongUrl(item.musicUrl);
+  // songStore.playMusic({
+  //   id: item.id,
+  //   url: item.musicUrl,
+  //   pic: item.imageUrl,
+  //   index: 0,
+  //   songTitle: 'test',
+  //   singerName: item.saler,
+  //   lyric: 'dd',
+  //   currentSongList: []
+  // });
   console.log('play music', item.musicUrl);
 }
 
