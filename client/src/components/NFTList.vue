@@ -9,11 +9,12 @@
             <penis-icon class="mask-icon" :icon="BOFANG"></penis-icon>
           </div>
         </div>
-        <div class="mt-1 text-sm">NFTID：{{ item.tokenId }}</div>
         <div class="flex justify-between">
-          <div class="mt-1 text-xs">价格：{{ item.price || '未上架'}}</div>
-          <div class="mt-1 cursor-pointer text-blue-300 text-xs" @click="jumpToDetail(item.id)">详情 ></div>
+          <div class="mt-1 text-sm">NFTID：{{ item.id }}</div>
+          <div class="mt-1 cursor-pointer text-blue-300 text-sm" @click="jumpToDetail(item)">详情 ></div>
         </div>
+        <div v-if="item.price" class="mt-1 text-xs">价格：{{ item.price }}ETH</div>
+        <div v-if="item.saler" class="mt-1 text-xs">卖方：{{ getSaler(item.saler) }}</div>
       </li>
     </ul>
   </div>
@@ -34,8 +35,16 @@ const BOFANG = ref(Icon.BOFANG)
 
 const router = useRouter();
 
-const jumpToDetail = (id: String) => {
-  router.push(`/detail?id=${id.toString()}`)
+const getSaler = (saler) => { 
+  return saler.slice(0, 5) + '******' + saler.slice(-3);
+}
+
+const jumpToDetail = (item) => {
+  if (props.title === '未上架') {
+    router.push(`/innerdetail?tokenId=${item.id}`)
+  } else { 
+    router.push(`/outdetail?orderId=${item.orderId}`)
+  }
 }
 
 const playMusic = () => {

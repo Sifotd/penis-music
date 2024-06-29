@@ -44,6 +44,16 @@ const routes: Array<RouteRecordRaw> = [
         component: ()=> import("@/views/Detail.vue"),
       },
       {
+        path: "/innerdetail",
+        name: "innerdetail",
+        component: ()=> import("@/views/InnerDetail.vue"),
+      },
+      {
+        path: "/outdetail",
+        name: "outdetail",
+        component: ()=> import("@/views/OutDetail.vue"),
+      },
+      {
         path: "/mint",
         name: "mint",
         component: ()=> import("@/views/Mint.vue"),

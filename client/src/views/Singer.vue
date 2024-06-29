@@ -15,11 +15,18 @@ const putOnList = ref([]); // 已上架
 const unPutOnList = ref([]); // 未上架
 const configure = useConfigure();
 
-const loadList = async () => {
+const loadPutOnList = async () => {
+  const contract = await useContract();
+  const orderList = await contract.getUserOrders(configure.wallet.account);
+  putOnList.value = await Promise.all(orderList.map(async (orderId: BigInt) => {
+    return await contract.getOrderData(orderId);
+  }))
+}
+
+const loadUnPutOnList = async () => {
   const contract = await useContract();
   const nftList = await contract.getNft(configure.wallet.account);
   unPutOnList.value = await Promise.all(nftList.map(async (tokenId: BigInt) => {
-    const data = await contract.getTokenData(tokenId);
     return await contract.getTokenData(tokenId)
   }))
 }
@@ -32,16 +39,10 @@ onMounted(async () => {
     })
     return;
   }
-  await loadList();
+  await loadUnPutOnList();
+  await loadPutOnList();
 });
 
-try {
-  HttpManager.getSongList().then((res) => {
-    putOnList.value = (res as ResponseBody).data.sort().slice(0, 10);
-  });
-} catch (error) {
-  console.error(error);
-}
 </script>
 
 <style lang="scss" scoped>

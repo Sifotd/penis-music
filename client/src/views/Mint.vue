@@ -53,38 +53,6 @@
             </el-tooltip>
           </el-form-item>
         </el-form>
-        <el-form v-if="step === 2" :model="form" label-width="auto" label-position="top">
-          <el-form-item label="NFT ID" class="mb-10 mt-10">
-            <div class="text-3xl">1232</div>
-          </el-form-item>
-          <el-form-item label="请输入出售价格" class="mb-10 mt-10">
-            <div class="flex">
-              <el-input
-                class="w-[200px]"
-                v-model="textarea"
-                :rows="2"
-                size="large"
-                placeholder="Please input"
-              />
-              <el-select
-                class="w-[100px]"
-                v-model="value"
-                placeholder="Select"
-                size="large"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="large">上架</el-button>
-          </el-form-item>
-        </el-form>
       </div>
     </div>
   </div>
